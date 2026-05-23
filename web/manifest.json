@@ -1,0 +1,35 @@
+{
+    "name": "Aytilmagan gaplar",
+    "short_name": "Aytilmagan",
+    "start_url": ".",
+    "display": "standalone",
+    "background_color": "#0D0D1A",
+    "theme_color": "#2D1B69",
+    "description": "Ba'zan insonning eng baland qichqirig'i bu uning sukuti bo'larkan... O'zbek sevgi romani.",
+    "orientation": "portrait-primary",
+    "prefer_related_applications": false,
+    "icons": [
+        {
+            "src": "icons/Icon-192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "icons/Icon-512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        },
+        {
+            "src": "icons/Icon-maskable-192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "maskable"
+        },
+        {
+            "src": "icons/Icon-maskable-512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "maskable"
+        }
+    ]
+}
