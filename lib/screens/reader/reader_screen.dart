@@ -78,7 +78,7 @@ class _ReaderScreenState extends State<ReaderScreen> {
     if (!mounted || !_scrollController.hasClients) return;
 
     final offset = _scrollController.offset;
-    
+
     // Save scroll position
     Provider.of<ReadingProvider>(context, listen: false)
         .saveScrollPosition(_currentIndex, offset);
@@ -102,7 +102,9 @@ class _ReaderScreenState extends State<ReaderScreen> {
     _controlsTimer?.cancel();
     if (!_showControls) return;
     _controlsTimer = Timer(const Duration(seconds: 4), () {
-      if (mounted && _scrollController.hasClients && _scrollController.offset > 50) {
+      if (mounted &&
+          _scrollController.hasClients &&
+          _scrollController.offset > 50) {
         setState(() {
           _showControls = false;
         });
@@ -126,7 +128,8 @@ class _ReaderScreenState extends State<ReaderScreen> {
     final settings = Provider.of<SettingsProvider>(context, listen: false);
     if (!settings.autoScroll) return;
 
-    _autoScrollTimer = Timer.periodic(const Duration(milliseconds: 50), (timer) {
+    _autoScrollTimer =
+        Timer.periodic(const Duration(milliseconds: 50), (timer) {
       if (!mounted || !_scrollController.hasClients) return;
       final maxScroll = _scrollController.position.maxScrollExtent;
       final currentScroll = _scrollController.offset;
@@ -148,7 +151,8 @@ class _ReaderScreenState extends State<ReaderScreen> {
         _currentIndex = index;
         _showControls = true;
       });
-      Provider.of<ReadingProvider>(context, listen: false).setCurrentChapter(index);
+      Provider.of<ReadingProvider>(context, listen: false)
+          .setCurrentChapter(index);
 
       // Jump to top and restart auto scroll
       if (_scrollController.hasClients) {
@@ -171,28 +175,37 @@ class _ReaderScreenState extends State<ReaderScreen> {
     }
   }
 
-  TextStyle _getReadingStyle(SettingsProvider settings, Color defaultColor, {bool isDialogue = false}) {
+  TextStyle _getReadingStyle(SettingsProvider settings, Color defaultColor,
+      {bool isDialogue = false}) {
     final double fs = settings.fontSize;
     final double lh = settings.lineHeight;
-    final Color textColor = isDialogue ? settings.readingTheme.dialogueColor : defaultColor;
+    final Color textColor =
+        isDialogue ? settings.readingTheme.dialogueColor : defaultColor;
     final FontStyle style = isDialogue ? FontStyle.italic : FontStyle.normal;
 
     switch (settings.fontFamily) {
       case 'Noto Serif':
-        return GoogleFonts.notoSerif(fontSize: fs, height: lh, color: textColor, fontStyle: style);
+        return GoogleFonts.notoSerif(
+            fontSize: fs, height: lh, color: textColor, fontStyle: style);
       case 'Playfair Display':
-        return GoogleFonts.playfairDisplay(fontSize: fs, height: lh, color: textColor, fontStyle: style);
+        return GoogleFonts.playfairDisplay(
+            fontSize: fs, height: lh, color: textColor, fontStyle: style);
       case 'Roboto':
-        return GoogleFonts.roboto(fontSize: fs, height: lh, color: textColor, fontStyle: style);
+        return GoogleFonts.roboto(
+            fontSize: fs, height: lh, color: textColor, fontStyle: style);
       case 'Lato':
       default:
-        return GoogleFonts.lato(fontSize: fs, height: lh, color: textColor, fontStyle: style);
+        return GoogleFonts.lato(
+            fontSize: fs, height: lh, color: textColor, fontStyle: style);
     }
   }
 
-  void _showParagraphOptions(String text, int paragraphIndex, String chapterTitle) {
-    final bookmarkProvider = Provider.of<BookmarkProvider>(context, listen: false);
-    final isBookmarked = bookmarkProvider.isBookmarked(_currentIndex, paragraphIndex);
+  void _showParagraphOptions(
+      String text, int paragraphIndex, String chapterTitle) {
+    final bookmarkProvider =
+        Provider.of<BookmarkProvider>(context, listen: false);
+    final isBookmarked =
+        bookmarkProvider.isBookmarked(_currentIndex, paragraphIndex);
     final settings = Provider.of<SettingsProvider>(context, listen: false);
     final theme = settings.readingTheme;
 
@@ -208,7 +221,8 @@ class _ReaderScreenState extends State<ReaderScreen> {
           decoration: GlassDecorations.navBar(isDark: theme.isDark),
           child: SafeArea(
             child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 16.0),
+              padding:
+                  const EdgeInsets.symmetric(vertical: 20.0, horizontal: 16.0),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -238,17 +252,23 @@ class _ReaderScreenState extends State<ReaderScreen> {
                   const SizedBox(height: 16),
                   ListTile(
                     leading: Icon(
-                      isBookmarked ? Icons.bookmark_remove_rounded : Icons.bookmark_add_rounded,
-                      color: isBookmarked ? Colors.redAccent : theme.accentColor,
+                      isBookmarked
+                          ? Icons.bookmark_remove_rounded
+                          : Icons.bookmark_add_rounded,
+                      color:
+                          isBookmarked ? Colors.redAccent : theme.accentColor,
                     ),
                     title: Text(
-                      isBookmarked ? 'Xatchupni olib tashlash' : 'Xatchupga qo\'shish',
+                      isBookmarked
+                          ? 'Xatchupni olib tashlash'
+                          : 'Xatchupga qo\'shish',
                       style: GoogleFonts.lato(color: theme.textColor),
                     ),
                     onTap: () async {
                       Navigator.pop(ctx);
                       if (isBookmarked) {
-                        await bookmarkProvider.removeBookmark(_currentIndex, paragraphIndex);
+                        await bookmarkProvider.removeBookmark(
+                            _currentIndex, paragraphIndex);
                         _showSnackBar('Xatchup olib tashlandi.');
                       } else {
                         final b = Bookmark(
@@ -264,7 +284,8 @@ class _ReaderScreenState extends State<ReaderScreen> {
                     },
                   ),
                   ListTile(
-                    leading: Icon(Icons.note_add_outlined, color: theme.accentColor),
+                    leading:
+                        Icon(Icons.note_add_outlined, color: theme.accentColor),
                     title: Text(
                       'Izoh/Qayd qo\'shish',
                       style: GoogleFonts.lato(color: theme.textColor),
@@ -295,8 +316,10 @@ class _ReaderScreenState extends State<ReaderScreen> {
     );
   }
 
-  void _showAddNoteDialog(String text, int paragraphIndex, String chapterTitle) {
-    final bookmarkProvider = Provider.of<BookmarkProvider>(context, listen: false);
+  void _showAddNoteDialog(
+      String text, int paragraphIndex, String chapterTitle) {
+    final bookmarkProvider =
+        Provider.of<BookmarkProvider>(context, listen: false);
     final settings = Provider.of<SettingsProvider>(context, listen: false);
     final theme = settings.readingTheme;
     final noteController = TextEditingController();
@@ -310,7 +333,8 @@ class _ReaderScreenState extends State<ReaderScreen> {
             backgroundColor: theme.surfaceColor.withValues(alpha: 0.9),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(20),
-              side: BorderSide(color: Colors.white.withValues(alpha: 0.15), width: 1.5),
+              side: BorderSide(
+                  color: Colors.white.withValues(alpha: 0.15), width: 1.5),
             ),
             title: Text(
               'Qayd qo\'shish',
@@ -339,16 +363,19 @@ class _ReaderScreenState extends State<ReaderScreen> {
                   style: TextStyle(color: theme.textColor),
                   decoration: InputDecoration(
                     hintText: 'Fikrlaringiz yoki qaydlaringiz...',
-                    hintStyle: TextStyle(color: theme.textColor.withValues(alpha: 0.4)),
+                    hintStyle: TextStyle(
+                        color: theme.textColor.withValues(alpha: 0.4)),
                     filled: true,
                     fillColor: Colors.white.withValues(alpha: 0.05),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
-                      borderSide: BorderSide(color: Colors.white.withValues(alpha: 0.1)),
+                      borderSide: BorderSide(
+                          color: Colors.white.withValues(alpha: 0.1)),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
-                      borderSide: BorderSide(color: theme.accentColor, width: 1.5),
+                      borderSide:
+                          BorderSide(color: theme.accentColor, width: 1.5),
                     ),
                   ),
                 ),
@@ -357,13 +384,16 @@ class _ReaderScreenState extends State<ReaderScreen> {
             actions: [
               TextButton(
                 onPressed: () => Navigator.pop(ctx),
-                child: Text('Bekor qilish', style: TextStyle(color: theme.textColor.withValues(alpha: 0.6))),
+                child: Text('Bekor qilish',
+                    style: TextStyle(
+                        color: theme.textColor.withValues(alpha: 0.6))),
               ),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: theme.accentColor,
                   foregroundColor: Colors.white,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30)),
                   elevation: 5,
                   shadowColor: theme.accentColor.withValues(alpha: 0.4),
                 ),
@@ -380,7 +410,8 @@ class _ReaderScreenState extends State<ReaderScreen> {
                   if (ctx.mounted) Navigator.pop(ctx);
                   _showSnackBar('Izohli xatchup saqlandi.');
                 },
-                child: Text('Saqlash', style: GoogleFonts.lato(fontWeight: FontWeight.bold)),
+                child: Text('Saqlash',
+                    style: GoogleFonts.lato(fontWeight: FontWeight.bold)),
               ),
             ],
           ),
@@ -394,7 +425,8 @@ class _ReaderScreenState extends State<ReaderScreen> {
       SnackBar(
         content: Text(
           message,
-          style: GoogleFonts.lato(color: Colors.white, fontWeight: FontWeight.w600),
+          style: GoogleFonts.lato(
+              color: Colors.white, fontWeight: FontWeight.w600),
         ),
         backgroundColor: const Color(0xFF13102A).withValues(alpha: 0.95),
         behavior: SnackBarBehavior.floating,
@@ -416,7 +448,8 @@ class _ReaderScreenState extends State<ReaderScreen> {
     final textColor = theme.textColor;
 
     // Background Image strategy
-    final bgUrl = theme.isLight ? ImageUrls.readerLightBg : ImageUrls.readerDarkBg;
+    final bgUrl =
+        theme.isDark ? ImageUrls.readerDarkBg : ImageUrls.readerLightBg;
 
     // Split text into paragraphs
     final paragraphs = chapter.content
@@ -471,7 +504,8 @@ class _ReaderScreenState extends State<ReaderScreen> {
                     child: Image.asset(
                       bgUrl,
                       fit: BoxFit.cover,
-                      errorBuilder: (_, __, ___) => const ColoredBox(color: Color(0xFF0D0A1A)),
+                      errorBuilder: (_, __, ___) =>
+                          const ColoredBox(color: Color(0xFF0D0A1A)),
                     ),
                   ),
                 );
@@ -539,7 +573,8 @@ class _ReaderScreenState extends State<ReaderScreen> {
                           children: [
                             Container(
                               constraints: BoxConstraints(
-                                maxWidth: settingsProvider.readingWidth.maxWidth,
+                                maxWidth:
+                                    settingsProvider.readingWidth.maxWidth,
                               ),
                               child: GlassCard(
                                 margin: EdgeInsets.only(
@@ -548,13 +583,15 @@ class _ReaderScreenState extends State<ReaderScreen> {
                                   left: 20,
                                   right: 20,
                                 ),
-                                padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 48),
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 32, vertical: 48),
                                 glowColor: accentColor,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     // Cinematic Chapter Header
-                                    _buildChapterHeader(chapter, theme, accentColor),
+                                    _buildChapterHeader(
+                                        chapter, theme, accentColor),
                                     const SizedBox(height: 48),
 
                                     // Chapter Content Paragraphs
@@ -565,34 +602,49 @@ class _ReaderScreenState extends State<ReaderScreen> {
                                           para.startsWith('"') ||
                                           para.startsWith('«') ||
                                           para.startsWith('-');
-                                      
-                                      final isBookmarked = bookmarkProvider.isBookmarked(_currentIndex, idx);
+
+                                      final isBookmarked = bookmarkProvider
+                                          .isBookmarked(_currentIndex, idx);
 
                                       return GestureDetector(
-                                        onLongPress: () => _showParagraphOptions(para, idx, chapter.title),
+                                        onLongPress: () =>
+                                            _showParagraphOptions(
+                                                para, idx, chapter.title),
                                         child: AnimatedContainer(
-                                          duration: const Duration(milliseconds: 200),
-                                          margin: const EdgeInsets.only(bottom: 6),
-                                          padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 10),
+                                          duration:
+                                              const Duration(milliseconds: 200),
+                                          margin:
+                                              const EdgeInsets.only(bottom: 6),
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 6, horizontal: 10),
                                           decoration: BoxDecoration(
                                             color: isBookmarked
-                                                ? accentColor.withValues(alpha: 0.08)
+                                                ? accentColor.withValues(
+                                                    alpha: 0.08)
                                                 : Colors.transparent,
-                                            borderRadius: BorderRadius.circular(12),
+                                            borderRadius:
+                                                BorderRadius.circular(12),
                                             border: Border.all(
                                               color: isBookmarked
-                                                  ? accentColor.withValues(alpha: 0.15)
+                                                  ? accentColor.withValues(
+                                                      alpha: 0.15)
                                                   : Colors.transparent,
                                               width: 1,
                                             ),
                                           ),
                                           child: Row(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
                                             children: [
                                               if (isBookmarked)
                                                 Padding(
-                                                  padding: const EdgeInsets.only(right: 8.0, top: 6.0),
-                                                  child: Icon(Icons.bookmark_rounded, color: accentColor, size: 15),
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          right: 8.0, top: 6.0),
+                                                  child: Icon(
+                                                      Icons.bookmark_rounded,
+                                                      color: accentColor,
+                                                      size: 15),
                                                 ),
                                               Expanded(
                                                 child: _buildParagraphWidget(
@@ -611,7 +663,8 @@ class _ReaderScreenState extends State<ReaderScreen> {
                                     }),
 
                                     // Bottom flourishes
-                                    _buildEndFlourish(context, _currentIndex, accentColor, theme),
+                                    _buildEndFlourish(context, _currentIndex,
+                                        accentColor, theme),
                                   ],
                                 ),
                               ),
@@ -652,7 +705,8 @@ class _ReaderScreenState extends State<ReaderScreen> {
                             builder: (context, _) {
                               double scrollProg = 0.0;
                               if (_scrollController.hasClients &&
-                                  _scrollController.position.maxScrollExtent > 0) {
+                                  _scrollController.position.maxScrollExtent >
+                                      0) {
                                 scrollProg = _scrollController.offset /
                                     _scrollController.position.maxScrollExtent;
                               }
@@ -783,11 +837,13 @@ class _ReaderScreenState extends State<ReaderScreen> {
                             ),
                             const SizedBox(width: 14),
                             Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 16, vertical: 8),
                               decoration: BoxDecoration(
                                 color: accentColor.withValues(alpha: 0.14),
                                 borderRadius: BorderRadius.circular(30),
-                                border: Border.all(color: accentColor.withValues(alpha: 0.2)),
+                                border: Border.all(
+                                    color: accentColor.withValues(alpha: 0.2)),
                               ),
                               child: Text(
                                 'BOB ${_currentIndex + 1} / ${book.BookData.chapters.length}',
@@ -802,10 +858,14 @@ class _ReaderScreenState extends State<ReaderScreen> {
                             const SizedBox(width: 14),
                             GlassPillIconButton(
                               icon: Icons.chevron_right_rounded,
-                              color: _currentIndex < book.BookData.chapters.length - 1
+                              color: _currentIndex <
+                                      book.BookData.chapters.length - 1
                                   ? theme.textColor
                                   : theme.textColor.withValues(alpha: 0.25),
-                              onTap: _currentIndex < book.BookData.chapters.length - 1 ? _nextChapter : null,
+                              onTap: _currentIndex <
+                                      book.BookData.chapters.length - 1
+                                  ? _nextChapter
+                                  : null,
                             ),
                           ],
                         ),
@@ -822,7 +882,8 @@ class _ReaderScreenState extends State<ReaderScreen> {
   }
 
   // ─── Header builder ─────────────────────────────────────────────────────────────
-  Widget _buildChapterHeader(book.Chapter chapter, ReadingTheme theme, Color accentColor) {
+  Widget _buildChapterHeader(
+      book.Chapter chapter, ReadingTheme theme, Color accentColor) {
     final r = Responsive.of(context);
     return Column(
       children: [
@@ -905,7 +966,8 @@ class _ReaderScreenState extends State<ReaderScreen> {
     Color accentColor,
     bool isDialogue,
   ) {
-    final textStyle = _getReadingStyle(settings, defaultColor, isDialogue: isDialogue);
+    final textStyle =
+        _getReadingStyle(settings, defaultColor, isDialogue: isDialogue);
 
     // Drop Cap for the very first paragraph in the chapter
     if (index == 0 && text.isNotEmpty) {
@@ -974,7 +1036,8 @@ class _ReaderScreenState extends State<ReaderScreen> {
   }
 
   // ─── Chapter flourish and next chapter teaser ──────────────────────────────────
-  Widget _buildEndFlourish(BuildContext context, int currentChapterIndex, Color accentColor, ReadingTheme theme) {
+  Widget _buildEndFlourish(BuildContext context, int currentChapterIndex,
+      Color accentColor, ReadingTheme theme) {
     final nextIndex = currentChapterIndex + 1;
     final hasNext = nextIndex < book.BookData.chapters.length;
     final nextChapter = hasNext ? book.BookData.chapters[nextIndex] : null;
@@ -1052,7 +1115,8 @@ class _ReaderScreenState extends State<ReaderScreen> {
                         ),
                       ),
                       const SizedBox(width: 6),
-                      Icon(Icons.arrow_forward_rounded, color: accentColor, size: 16),
+                      Icon(Icons.arrow_forward_rounded,
+                          color: accentColor, size: 16),
                     ],
                   ),
                 ],
@@ -1077,7 +1141,7 @@ class _ReaderScreenState extends State<ReaderScreen> {
                 ),
                 const SizedBox(height: 12),
                 Text(
-                  'Siz "Aytilmagan gaplar" romanini to\'liq o\'qib chiqdingiz. Mutolaa uchun tashakkur!',
+                  'Siz "Yuragdagi Sukut" romanini to\'liq o\'qib chiqdingiz. Mutolaa uchun tashakkur!',
                   textAlign: TextAlign.center,
                   style: GoogleFonts.lato(
                     fontSize: 14,
@@ -1157,7 +1221,8 @@ class _Sidebar extends StatelessWidget {
                         child: Image.asset(
                           ImageUrls.bookCover,
                           fit: BoxFit.cover,
-                          errorBuilder: (_, __, ___) => const ColoredBox(color: Color(0xFF13102A)),
+                          errorBuilder: (_, __, ___) =>
+                              const ColoredBox(color: Color(0xFF13102A)),
                         ),
                       ),
                     ),
@@ -1187,7 +1252,8 @@ class _Sidebar extends StatelessWidget {
 
               // Circle progress indicator
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
                 child: Row(
                   children: [
                     SizedBox(
@@ -1262,7 +1328,8 @@ class _Sidebar extends StatelessWidget {
                         onTap: () => onChapterSelected(idx),
                         child: AnimatedContainer(
                           duration: const Duration(milliseconds: 200),
-                          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 20, vertical: 12),
                           color: isCurrent
                               ? accentColor.withValues(alpha: 0.12)
                               : Colors.transparent,
@@ -1277,7 +1344,8 @@ class _Sidebar extends StatelessWidget {
                                       ? accentColor
                                       : (isRead
                                           ? accentColor.withValues(alpha: 0.18)
-                                          : Colors.white.withValues(alpha: 0.05)),
+                                          : Colors.white
+                                              .withValues(alpha: 0.05)),
                                   border: Border.all(
                                     color: isCurrent || isRead
                                         ? Colors.transparent
@@ -1286,15 +1354,21 @@ class _Sidebar extends StatelessWidget {
                                 ),
                                 child: Center(
                                   child: isCurrent
-                                      ? Icon(Icons.menu_book_rounded, size: 11, color: theme.isDark ? Colors.white : Colors.black)
+                                      ? Icon(Icons.menu_book_rounded,
+                                          size: 11,
+                                          color: theme.isDark
+                                              ? Colors.white
+                                              : Colors.black)
                                       : (isRead
-                                          ? Icon(Icons.check, size: 11, color: accentColor)
+                                          ? Icon(Icons.check,
+                                              size: 11, color: accentColor)
                                           : Text(
                                               '${idx + 1}',
                                               style: GoogleFonts.montserrat(
                                                 fontSize: 9,
                                                 fontWeight: FontWeight.bold,
-                                                color: theme.textColor.withValues(alpha: 0.4),
+                                                color: theme.textColor
+                                                    .withValues(alpha: 0.4),
                                               ),
                                             )),
                                 ),
@@ -1307,10 +1381,13 @@ class _Sidebar extends StatelessWidget {
                                   overflow: TextOverflow.ellipsis,
                                   style: GoogleFonts.playfairDisplay(
                                     fontSize: 14,
-                                    fontWeight: isCurrent ? FontWeight.bold : FontWeight.normal,
+                                    fontWeight: isCurrent
+                                        ? FontWeight.bold
+                                        : FontWeight.normal,
                                     color: isCurrent
                                         ? accentColor
-                                        : theme.textColor.withValues(alpha: 0.8),
+                                        : theme.textColor
+                                            .withValues(alpha: 0.8),
                                   ),
                                 ),
                               ),

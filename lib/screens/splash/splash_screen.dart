@@ -30,7 +30,7 @@ class _SplashScreenState extends State<SplashScreen>
   bool _titleVisible = false;
   bool _subtitleVisible = false;
   bool _quoteVisible = false;
-  bool _ctaVisible = false;
+  final bool _ctaVisible = false;
   bool _hoverCta = false;
 
   // Blur animation for background
@@ -172,7 +172,8 @@ class _SplashScreenState extends State<SplashScreen>
             child: ConstrainedBox(
               constraints: const BoxConstraints(maxWidth: 700),
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: Responsive.of(context).hPadding),
+                padding: EdgeInsets.symmetric(
+                    horizontal: Responsive.of(context).hPadding),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -182,10 +183,7 @@ class _SplashScreenState extends State<SplashScreen>
                         Icons.menu_book_rounded,
                         size: 48,
                         color: Color(0xFF9B59B6),
-                      )
-                          .animate()
-                          .fadeIn(duration: 600.ms)
-                          .scale(
+                      ).animate().fadeIn(duration: 600.ms).scale(
                             begin: const Offset(0, 0),
                             duration: 700.ms,
                             curve: Curves.elasticOut,
@@ -283,7 +281,8 @@ class _SplashScreenState extends State<SplashScreen>
                                     AppLocalizations.get('quote', lang),
                                     style: GoogleFonts.notoSerif(
                                       fontSize: r.splashQuoteFontSize,
-                                      color: Colors.white.withValues(alpha: 0.80),
+                                      color:
+                                          Colors.white.withValues(alpha: 0.80),
                                       height: 1.7,
                                       fontStyle: FontStyle.italic,
                                     ),
@@ -293,10 +292,7 @@ class _SplashScreenState extends State<SplashScreen>
                             ),
                           ],
                         ),
-                      )
-                          .animate()
-                          .fadeIn(duration: 800.ms)
-                          .slideX(
+                      ).animate().fadeIn(duration: 800.ms).slideX(
                             begin: -0.05,
                             end: 0,
                             duration: 800.ms,
@@ -324,7 +320,8 @@ class _SplashScreenState extends State<SplashScreen>
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(50),
                               child: BackdropFilter(
-                                filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
+                                filter:
+                                    ImageFilter.blur(sigmaX: 20, sigmaY: 20),
                                 child: AnimatedContainer(
                                   duration: const Duration(milliseconds: 220),
                                   padding: const EdgeInsets.symmetric(
@@ -363,7 +360,8 @@ class _SplashScreenState extends State<SplashScreen>
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
                                       Text(
-                                        AppLocalizations.get('start_reading', lang),
+                                        AppLocalizations.get(
+                                            'start_reading', lang),
                                         style: GoogleFonts.montserrat(
                                           color: Colors.white,
                                           fontSize: 16,
@@ -390,10 +388,7 @@ class _SplashScreenState extends State<SplashScreen>
                             ),
                           ),
                         ),
-                      )
-                          .animate()
-                          .fadeIn(duration: 700.ms)
-                          .slideY(
+                      ).animate().fadeIn(duration: 700.ms).slideY(
                             begin: 0.3,
                             end: 0,
                             duration: 700.ms,

@@ -6,9 +6,10 @@ class AppLocalizations {
 
   static const Map<String, Map<String, String>> values = {
     'uz': {
-      'app_title': 'Aytilmagan gaplar',
-      'subtitle': 'Aytilmagan Gaplar',
-      'quote': '"Ba\'zan insonning eng baland qichqirig\'i bu uning sukuti bo\'larkan..."',
+      'app_title': 'Yuragdagi Sukut',
+      'subtitle': '— O\'zbek sevgi romani —',
+      'quote':
+          '"Ba\'zan insonning eng baland qichqirig\'i bu uning sukuti bo\'larkan..."',
       'start_reading': 'O\'qishni Boshlash',
       'settings': 'Sozlamalar',
       'theme': 'Mavzu',
@@ -53,22 +54,25 @@ class AppLocalizations {
       'lh_compact': 'Ixcham',
       'lh_normal': 'Normal',
       'lh_wide': 'Keng',
-      'stats_summary': 'Sizning o\'qish natijalaringiz va xatchoplaringiz shu yerda jamlanadi.',
+      'stats_summary':
+          'Sizning o\'qish natijalaringiz va xatchoplaringiz shu yerda jamlanadi.',
       'reading_now': 'Hozir o\'qilmoqda',
       'bookmarks_tab': 'Xatchoplar',
       'continue_reading': 'O\'qishni davom ettirish',
       'clear_history': 'Tarixni tozalash',
-      'clear_history_confirm': 'Haqiqatdan ham o\'qish tarixi va taraqqiyotingizni boshidan boshlamoqchimisiz?',
+      'clear_history_confirm':
+          'Haqiqatdan ham o\'qish tarixi va taraqqiyotingizni boshidan boshlamoqchimisiz?',
       'cancel': 'Bekor qilish',
       'clear': 'Tozalash',
       'chapters_list': 'BOBLAR RO\'YXATI',
       'estimated_minutes': 'daqiqa',
-      'delete_bookmark_confirm': 'Haqiqatdan ham ushbu xatchopni o\'chirmoqchimisiz?',
+      'delete_bookmark_confirm':
+          'Haqiqatdan ham ushbu xatchopni o\'chirmoqchimisiz?',
       'delete_bookmark': 'Xatchopni o\'chirish',
     },
     'ru': {
-      'app_title': 'Несказанные слова',
-      'subtitle': 'Несказанные слова',
+      'app_title': 'Yuragdagi Sukut',
+      'subtitle': '— O\'zbek sevgi romani —',
       'quote': '"Иногда самый громкий крик человека — это его молчание..."',
       'start_reading': 'Начать чтение',
       'settings': 'Настройки',
@@ -119,17 +123,19 @@ class AppLocalizations {
       'bookmarks_tab': 'Закладки',
       'continue_reading': 'Продолжить чтение',
       'clear_history': 'Очистить историю',
-      'clear_history_confirm': 'Вы действительно хотите сбросить историю чтения и прогресс?',
+      'clear_history_confirm':
+          'Вы действительно хотите сбросить историю чтения и прогресс?',
       'cancel': 'Отмена',
       'clear': 'Очистить',
       'chapters_list': 'СПИСОК ГЛАВ',
       'estimated_minutes': 'мин.',
-      'delete_bookmark_confirm': 'Вы действительно хотите удалить эту закладку?',
+      'delete_bookmark_confirm':
+          'Вы действительно хотите удалить эту закладку?',
       'delete_bookmark': 'Удалить закладку',
     },
     'en': {
-      'app_title': 'Unspoken Words',
-      'subtitle': 'Unspoken Words',
+      'app_title': 'Yuragdagi Sukut',
+      'subtitle': '— O\'zbek sevgi romani —',
       'quote': '"Sometimes a person\'s loudest cry is their silence..."',
       'start_reading': 'Start Reading',
       'settings': 'Settings',
@@ -180,12 +186,14 @@ class AppLocalizations {
       'bookmarks_tab': 'Bookmarks',
       'continue_reading': 'Continue Reading',
       'clear_history': 'Clear History',
-      'clear_history_confirm': 'Are you sure you want to clear your reading history and progress?',
+      'clear_history_confirm':
+          'Are you sure you want to clear your reading history and progress?',
       'cancel': 'Cancel',
       'clear': 'Clear',
       'chapters_list': 'CHAPTERS LIST',
       'estimated_minutes': 'min',
-      'delete_bookmark_confirm': 'Are you sure you want to delete this bookmark?',
+      'delete_bookmark_confirm':
+          'Are you sure you want to delete this bookmark?',
       'delete_bookmark': 'Delete Bookmark',
     }
   };

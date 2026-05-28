@@ -1,7 +1,7 @@
 import 'book_data.dart';
 
 class BookDataEn {
-  static const String title = "Unspoken Words";
+  static const String title = "Yuragdagi Sukut";
   static const String author = "Unknown author";
   static const String description =
       "Sometimes a person's loudest cry is their silence...";
@@ -11,7 +11,8 @@ class BookDataEn {
       id: '0',
       index: 0,
       title: 'Introduction',
-      content: '''Sometimes a person's loudest cry is their silence. No one hears it. You fall asleep at night with tears in your eyes, and in the morning you continue to live and smile, as if nothing happened.
+      content:
+          '''Sometimes a person's loudest cry is their silence. No one hears it. You fall asleep at night with tears in your eyes, and in the morning you continue to live and smile, as if nothing happened.
 
 I also lived exactly like this. With a broken heart at night, but with a fake smile on my face in the morning, hiding everything like a frightened little girl.
 
@@ -213,7 +214,8 @@ The next day the weather was clear...''',
       id: '2',
       index: 2,
       title: 'Vanished Footprints',
-      content: '''A cold autumn wind slowly swayed the trees in the park. Fallen yellow leaves rustled underfoot, and the voices of children playing could be heard from afar.
+      content:
+          '''A cold autumn wind slowly swayed the trees in the park. Fallen yellow leaves rustled underfoot, and the voices of children playing could be heard from afar.
 
 Bonu stopped at the park gates.
 
@@ -380,7 +382,7 @@ But behind this calm lay a huge pain.''',
     Chapter(
       id: '3',
       index: 3,
-      title: 'Unspoken Words',
+      title: 'Yuragdagi Sukut',
       content: '''At this moment, Bonu's phone rang.
 
 Dilnoza.
@@ -739,7 +741,8 @@ And soon, exhausted by tears, fell asleep.''',
       id: '5',
       index: 5,
       title: 'The Day He Returned',
-      content: '''Early morning, the sky is clear. It smelled fresh outside after yesterday's rain.
+      content:
+          '''Early morning, the sky is clear. It smelled fresh outside after yesterday's rain.
 
 Bonu, as usual, headed to the university library.
 
@@ -789,7 +792,8 @@ A few minutes later, the bus arrived.''',
       id: '6',
       index: 6,
       title: "Ali's Silence",
-      content: '''Ali was not happy about his departure either. He counted the days until he returned home, thought about earning money and how to cure his father quickly. But life presents us not with what we want, but with what we least desire.
+      content:
+          '''Ali was not happy about his departure either. He counted the days until he returned home, thought about earning money and how to cure his father quickly. But life presents us not with what we want, but with what we least desire.
 
 The night was quiet. A soft rain fell outside the window. Ali sat in a dark corner of his room. There were many words in his heart, but there was not enough strength to speak them.
 
@@ -823,7 +827,8 @@ And for the first time, the silence in his heart seemed to him not scary, but pl
       id: '7',
       index: 7,
       title: 'The Return',
-      content: '''The cold winter air bound nature. Snowflakes whirled around. Trees stood without leaves. Someone was rushing to their warm home, someone to close people, and someone to work. Ali was in a hurry for the bus.
+      content:
+          '''The cold winter air bound nature. Snowflakes whirled around. Trees stood without leaves. Someone was rushing to their warm home, someone to close people, and someone to work. Ali was in a hurry for the bus.
 
 In Russia he met good people, his compatriots, and they began to live in the same house.
 
@@ -937,7 +942,8 @@ Five minutes later, the taxi arrived.''',
       id: '8',
       index: 8,
       title: 'Delayed Happiness',
-      content: '''It was a twenty-minute drive to Bonu's house. All the way she looked out the car window.
+      content:
+          '''It was a twenty-minute drive to Bonu's house. All the way she looked out the car window.
 
 There was a quiet life on the street, a light breeze blew. No passers-by were visible. "Probably everyone is already home having dinner with their families," she thought.
 

@@ -21,8 +21,7 @@ class GlassDecorations {
       ),
       boxShadow: [
         BoxShadow(
-          color: (glowColor ?? const Color(0xFF9B59B6))
-              .withValues(alpha: 0.15),
+          color: (glowColor ?? const Color(0xFF9B59B6)).withValues(alpha: 0.15),
           blurRadius: 40,
           spreadRadius: -5,
           offset: const Offset(0, 20),

@@ -16,7 +16,7 @@ class Chapter {
 }
 
 class BookData {
-  static const String title = "Aytilmagan gaplar";
+  static const String title = "Yuragdagi Sukut";
   static const String author = "Noma'lum muallif";
   static const String description =
       "Ba'zan insonning eng baland qichqirig'i bu uning sukuti bo'larkan...";
@@ -50,7 +50,8 @@ class BookData {
       id: '0',
       index: 0,
       title: 'Kirish',
-      content: '''Ba'zan insonning eng baland qichqirig'i bu uning sukuti bo'larkan. Uni hech kim eshitmaydi. Tunlari ko'z yosh bilan uxlab, tongda xuddi-ki hech nma bo'lmagandek kulib yashashda davom etarkansan.
+      content:
+          '''Ba'zan insonning eng baland qichqirig'i bu uning sukuti bo'larkan. Uni hech kim eshitmaydi. Tunlari ko'z yosh bilan uxlab, tongda xuddi-ki hech nma bo'lmagandek kulib yashashda davom etarkansan.
 
 Men ham xuddi shunday yashadim. Tunlari qalbim ming parcha lekin tongda "hammasi yaxshi" degan soxta tabassum ortiga berkingan jajji qizaloq kabi.
 
@@ -252,7 +253,8 @@ Ertasi kun havo ochiq edi...''',
       id: '2',
       index: 2,
       title: 'Ketgan izlar',
-      content: '''Kuzning sovuq shamoli xiyobondagi daraxtlarni sekin tebratardi. Yerga to'kilgan sariq yaproqlar oyoz ostida shitirlab ezilar, uzoqdan bolalarning ovozi eshitilib turardi.
+      content:
+          '''Kuzning sovuq shamoli xiyobondagi daraxtlarni sekin tebratardi. Yerga to'kilgan sariq yaproqlar oyoz ostida shitirlab ezilar, uzoqdan bolalarning ovozi eshitilib turardi.
 
 Bonu xiyobon darvozasi oldida to'xtab qoldi.
 
@@ -421,7 +423,7 @@ Ammo bu sokinlik ortida katta dard yashardi.''',
     Chapter(
       id: '3',
       index: 3,
-      title: 'Aytilmagan gaplar',
+      title: 'Yuragdagi Sukut',
       content: '''Shu payt Bonuning telefoni jiringladi.
 
 Dilnoza.
@@ -870,7 +872,8 @@ Lekin vaqt o'tgan sari inson hammasi ko'nikar ekan. Unuta olmayman degan insonla
       id: '6',
       index: 6,
       title: 'Ali\'ning sukuti',
-      content: '''Ali ham ketganidan xursand emasdi. Uyga qaytishini kunlab sanar, pul topish, otasini tezroq davolatish haqida o'ylardi. Lekin hayot biz hohlagan narsalarni emas, hohlamagan narsalarimizni tayyorlab qo'yarkan.
+      content:
+          '''Ali ham ketganidan xursand emasdi. Uyga qaytishini kunlab sanar, pul topish, otasini tezroq davolatish haqida o'ylardi. Lekin hayot biz hohlagan narsalarni emas, hohlamagan narsalarimizni tayyorlab qo'yarkan.
 
 Tun sokin edi. Deraza ortida yomg'ir mayin yog'ardi. Ali esa xonasining qorong'u burchagida jim o'tirardi. Yuragida minglab gaplar bor edi, lekin ularni aytishga kuch topolmasdi.
 
@@ -904,7 +907,8 @@ Va ilk bor yuragidagi sukut unga qo'rqinchli emas, yoqimli tuyuldi.''',
       id: '7',
       index: 7,
       title: 'Qaytish',
-      content: '''Qishning sovuq havosi tabiatga ta'sir qila boshladi. Atrofda qor parchalari. Daraxtlardan barglar to'kilgan. Kimdir issiq uyiga shoshardi, kimdir qadrli insonlari yoniga, yana kimdir esa ishga. Ali bo'lsa avtobusga shoshardi.
+      content:
+          '''Qishning sovuq havosi tabiatga ta'sir qila boshladi. Atrofda qor parchalari. Daraxtlardan barglar to'kilgan. Kimdir issiq uyiga shoshardi, kimdir qadrli insonlari yoniga, yana kimdir esa ishga. Ali bo'lsa avtobusga shoshardi.
 
 U Rossiyada yaxshi insonlar, vatandoshlari bilan tanishgandi va ular bilan bir uyda yashay boshlagandi.
 
@@ -1018,7 +1022,8 @@ Oradan besh daqiqa o'tib taksi ham yetib keldi.''',
       id: '8',
       index: 8,
       title: 'Kechikkan baxt',
-      content: '''Bonuning uyigacha yigirma daqiqalik yo'l edi. Yo'l bo'yi mashina oynasidan tashqariga qarab ketdi.
+      content:
+          '''Bonuning uyigacha yigirma daqiqalik yo'l edi. Yo'l bo'yi mashina oynasidan tashqariga qarab ketdi.
 
 Ko'chada sokin hayot, mayin shabada esardi. Odamlar ko'rinmasdi. Hamma uyda oilasi bilan ovqatlanishga kirishgan degan xayol bilan ketardi.
 

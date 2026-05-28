@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../core/theme/app_colors.dart';
 import '../data/models/reading_settings.dart';
+import '../services/sync_service.dart';
 
 class SettingsProvider extends ChangeNotifier {
   ReadingSettings _settings = const ReadingSettings();
@@ -24,6 +25,14 @@ class SettingsProvider extends ChangeNotifier {
   String get language => _settings.language;
 
   Future<void> init() async {
+    // 1. Load from local SharedPreferences
+    await _loadLocal();
+
+    // 2. Load and merge from cloud
+    await _mergeFromCloud();
+  }
+
+  Future<void> _loadLocal() async {
     final prefs = await SharedPreferences.getInstance();
 
     final themeIndex = prefs.getInt('v2_readingTheme') ?? 0;
@@ -46,7 +55,36 @@ class SettingsProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> _save() async {
+  Future<void> _mergeFromCloud() async {
+    try {
+      final cloudData = await SyncService.loadSettingsFromCloud();
+      if (cloudData == null) return;
+
+      final themeIndex = cloudData['readingTheme'] as int? ?? _settings.readingTheme.index;
+      final widthIndex = cloudData['readingWidth'] as int? ?? _settings.readingWidth.index;
+
+      _settings = ReadingSettings(
+        fontSize: (cloudData['fontSize'] as num?)?.toDouble() ?? _settings.fontSize,
+        lineHeight: (cloudData['lineHeight'] as num?)?.toDouble() ?? _settings.lineHeight,
+        fontFamily: cloudData['fontFamily'] as String? ?? _settings.fontFamily,
+        readingTheme: ReadingTheme.values[themeIndex.clamp(0, ReadingTheme.values.length - 1)],
+        readingWidth: ReadingWidth.values[widthIndex.clamp(0, ReadingWidth.values.length - 1)],
+        autoScroll: cloudData['autoScroll'] as bool? ?? _settings.autoScroll,
+        autoScrollSpeed: (cloudData['autoScrollSpeed'] as num?)?.toDouble() ?? _settings.autoScrollSpeed,
+        showReadingProgress: cloudData['showReadingProgress'] as bool? ?? _settings.showReadingProgress,
+        enableTextSelection: cloudData['enableTextSelection'] as bool? ?? _settings.enableTextSelection,
+        language: cloudData['language'] as String? ?? _settings.language,
+      );
+
+      await _saveLocal();
+      notifyListeners();
+      debugPrint('✅ SettingsProvider: Synced from Cloud');
+    } catch (e) {
+      debugPrint('ℹ️ SettingsProvider: Cloud merge skipped — $e');
+    }
+  }
+
+  Future<void> _saveLocal() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setDouble('v2_fontSize', _settings.fontSize);
     await prefs.setDouble('v2_lineHeight', _settings.lineHeight);
@@ -60,10 +98,26 @@ class SettingsProvider extends ChangeNotifier {
     await prefs.setString('v2_language', _settings.language);
   }
 
+  void _scheduleCloudSync() {
+    SyncService.scheduleSyncSettings({
+      'fontSize': _settings.fontSize,
+      'lineHeight': _settings.lineHeight,
+      'fontFamily': _settings.fontFamily,
+      'readingTheme': _settings.readingTheme.index,
+      'readingWidth': _settings.readingWidth.index,
+      'autoScroll': _settings.autoScroll,
+      'autoScrollSpeed': _settings.autoScrollSpeed,
+      'showReadingProgress': _settings.showReadingProgress,
+      'enableTextSelection': _settings.enableTextSelection,
+      'language': _settings.language,
+    });
+  }
+
   void _update(ReadingSettings updated) {
     _settings = updated;
     notifyListeners();
-    _save();
+    _saveLocal();
+    _scheduleCloudSync();
   }
 
   void setFontSize(double size) =>

@@ -8,7 +8,6 @@ import 'screens/splash/splash_screen.dart';
 import 'screens/home/home_screen.dart';
 import 'screens/reader/reader_screen.dart';
 
-
 // ─── Liquid drop transition builder for go_router ──────────────────────────────
 CustomTransitionPage<void> _dropPage({
   required GoRouterState state,
@@ -198,7 +197,7 @@ class AytilmaganGaplarApp extends StatelessWidget {
     return Consumer<SettingsProvider>(
       builder: (context, settings, _) {
         return MaterialApp.router(
-          title: 'Aytilmagan gaplar',
+          title: 'Yuragdagi Sukut',
           debugShowCheckedModeBanner: false,
           routerConfig: _router,
           theme: AppTheme.lightTheme,

@@ -1,31 +1,52 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:yurakdagi_sukut/app.dart';
+import 'package:yurakdagi_sukut/providers/reading_provider.dart';
+import 'package:yurakdagi_sukut/providers/settings_provider.dart';
+import 'package:yurakdagi_sukut/providers/bookmark_provider.dart';
+import 'package:yurakdagi_sukut/providers/auth_provider.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(ChangeNotifierProvider(
-      create: (BuildContext context) {},
-    ));
+  setUp(() {
+    SharedPreferences.setMockInitialValues({
+      'rp_currentChapter': 0,
+      'rp_totalMinutes': 0,
+      'rp_splashDone': false,
+    });
+  });
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+  testWidgets('App initialization smoke test', (WidgetTester tester) async {
+    // 1. Create providers and initialize them
+    final readingProvider = ReadingProvider();
+    final settingsProvider = SettingsProvider();
+    final bookmarkProvider = BookmarkProvider();
+    final authProvider = AuthProvider();
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+    await readingProvider.init();
+    await settingsProvider.init();
+    await bookmarkProvider.init();
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    // 2. Pump the main AytilmaganGaplarApp wrapped in MultiProvider
+    await tester.pumpWidget(
+      MultiProvider(
+        providers: [
+          ChangeNotifierProvider.value(value: authProvider),
+          ChangeNotifierProvider.value(value: readingProvider),
+          ChangeNotifierProvider.value(value: settingsProvider),
+          ChangeNotifierProvider.value(value: bookmarkProvider),
+        ],
+        child: const AytilmaganGaplarApp(),
+      ),
+    );
+
+    // 3. Verify the app successfully mounts and renders
+    expect(find.byType(AytilmaganGaplarApp), findsOneWidget);
+
+    // 4. Pump the sequential splash screen delayed futures in 1-second steps.
+    // This allows sequential chained futures to trigger, execute, and clear cleanly.
+    for (int i = 0; i < 15; i++) {
+      await tester.pump(const Duration(seconds: 1));
+    }
   });
 }

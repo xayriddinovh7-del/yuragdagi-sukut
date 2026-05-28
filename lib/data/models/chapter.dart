@@ -23,6 +23,10 @@ class Chapter {
 
   bool isParagraphDialogue(String paragraph) {
     final t = paragraph.trim();
-    return t.startsWith('—') || t.startsWith('–') || t.startsWith('"') || t.startsWith('«') || t.startsWith('-');
+    return t.startsWith('—') ||
+        t.startsWith('–') ||
+        t.startsWith('"') ||
+        t.startsWith('«') ||
+        t.startsWith('-');
   }
 }

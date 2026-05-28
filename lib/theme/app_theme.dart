@@ -73,7 +73,8 @@ class AppTheme {
           color: baseColor, fontWeight: FontWeight.w600),
       bodyLarge: GoogleFonts.notoSerif(color: baseColor, fontSize: 18),
       bodyMedium: GoogleFonts.lato(color: baseColor),
-      labelLarge: GoogleFonts.lato(color: baseColor, fontWeight: FontWeight.w600),
+      labelLarge:
+          GoogleFonts.lato(color: baseColor, fontWeight: FontWeight.w600),
     );
   }
 

@@ -28,9 +28,11 @@ class Bookmark {
         chapterIndex: int.tryParse(oldParts[0]) ?? 0,
         chapterTitle: oldParts.length > 1 ? oldParts[1] : '',
         text: oldParts.length > 2 ? oldParts[2] : '',
-        paragraphIndex: oldParts.length > 3 ? (int.tryParse(oldParts[3]) ?? 0) : 0,
+        paragraphIndex:
+            oldParts.length > 3 ? (int.tryParse(oldParts[3]) ?? 0) : 0,
         savedAt: oldParts.length > 4
-            ? DateTime.fromMillisecondsSinceEpoch(int.tryParse(oldParts[4]) ?? 0)
+            ? DateTime.fromMillisecondsSinceEpoch(
+                int.tryParse(oldParts[4]) ?? 0)
             : DateTime.now(),
       );
     }

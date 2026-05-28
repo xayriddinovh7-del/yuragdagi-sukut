@@ -77,7 +77,7 @@ class _HomeScreenState extends State<HomeScreen> {
     final mediaQuery = MediaQuery.of(context);
     final r = Responsive.of(context);
     final isDesktop = r.isDesktop;
-    final isTablet  = r.isTablet;
+    final isTablet = r.isTablet;
 
     return Scaffold(
       backgroundColor: bg,
@@ -98,7 +98,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   ImageUrls.homeBg,
                   fit: BoxFit.cover,
                   alignment: Alignment.center,
-                  errorBuilder: (context, error, stackTrace) => Container(color: bg),
+                  errorBuilder: (context, error, stackTrace) =>
+                      Container(color: bg),
                 ),
               ),
             ),
@@ -178,52 +179,58 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ],
                               )
                             : isTablet
-                            // Tablet: ikki ustun, kichikroq sidebar
-                            ? Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  SizedBox(
-                                    width: 240,
-                                    child: _buildSidebar(
-                                        context,
-                                        readingProv,
-                                        settingsProv,
-                                        textColor,
-                                        subColor,
-                                        accent,
-                                        isDark),
+                                // Tablet: ikki ustun, kichikroq sidebar
+                                ? Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      SizedBox(
+                                        width: 240,
+                                        child: _buildSidebar(
+                                            context,
+                                            readingProv,
+                                            settingsProv,
+                                            textColor,
+                                            subColor,
+                                            accent,
+                                            isDark),
+                                      ),
+                                      const SizedBox(width: 24),
+                                      Expanded(
+                                        child: _buildChaptersSection(
+                                            context,
+                                            readingProv,
+                                            settingsProv,
+                                            textColor,
+                                            subColor,
+                                            accent,
+                                            isDark),
+                                      ),
+                                    ],
+                                  )
+                                // Mobile/Compact: vertikal stack
+                                : Column(
+                                    children: [
+                                      // Stats summary
+                                      _buildMobileStatsCard(
+                                          readingProv,
+                                          settingsProv,
+                                          textColor,
+                                          subColor,
+                                          accent,
+                                          isDark),
+                                      const SizedBox(height: 24),
+                                      // Chapters List
+                                      _buildChaptersSection(
+                                          context,
+                                          readingProv,
+                                          settingsProv,
+                                          textColor,
+                                          subColor,
+                                          accent,
+                                          isDark),
+                                    ],
                                   ),
-                                  const SizedBox(width: 24),
-                                  Expanded(
-                                    child: _buildChaptersSection(
-                                        context,
-                                        readingProv,
-                                        settingsProv,
-                                        textColor,
-                                        subColor,
-                                        accent,
-                                        isDark),
-                                  ),
-                                ],
-                              )
-                            // Mobile/Compact: vertikal stack
-                            : Column(
-                                children: [
-                                  // Stats summary
-                                  _buildMobileStatsCard(
-                                      readingProv, settingsProv, textColor, subColor, accent, isDark),
-                                  const SizedBox(height: 24),
-                                  // Chapters List
-                                  _buildChaptersSection(
-                                      context,
-                                      readingProv,
-                                      settingsProv,
-                                      textColor,
-                                      subColor,
-                                      accent,
-                                      isDark),
-                                ],
-                              ),
                       ),
                     ),
                   ),
@@ -251,7 +258,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 elevation: 12,
                 icon: const Icon(Icons.menu_book_rounded),
                 label: Text(
-                  AppLocalizations.get('continue_reading', settingsProv.language),
+                  AppLocalizations.get(
+                      'continue_reading', settingsProv.language),
                   style: GoogleFonts.montserrat(
                     fontWeight: FontWeight.w600,
                     letterSpacing: 0.5,
@@ -417,7 +425,8 @@ class _HomeScreenState extends State<HomeScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                AppLocalizations.get('progress', settings.language).toUpperCase(),
+                AppLocalizations.get('progress', settings.language)
+                    .toUpperCase(),
                 style: GoogleFonts.lato(
                   fontSize: 10,
                   fontWeight: FontWeight.bold,
@@ -429,10 +438,13 @@ class _HomeScreenState extends State<HomeScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    '${AppLocalizations.get('total_time', settings.language)}:',
-                    style: GoogleFonts.lato(fontSize: 13, color: textColor),
+                  Expanded(
+                    child: Text(
+                      '${AppLocalizations.get('total_time', settings.language)}:',
+                      style: GoogleFonts.lato(fontSize: 13, color: textColor),
+                    ),
                   ),
+                  const SizedBox(width: 8),
                   Text(
                     reading.readingTimeText,
                     style: GoogleFonts.montserrat(
@@ -447,10 +459,13 @@ class _HomeScreenState extends State<HomeScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    '${AppLocalizations.get('chapters_read', settings.language)}:',
-                    style: GoogleFonts.lato(fontSize: 13, color: textColor),
+                  Expanded(
+                    child: Text(
+                      '${AppLocalizations.get('chapters_read', settings.language)}:',
+                      style: GoogleFonts.lato(fontSize: 13, color: textColor),
+                    ),
                   ),
+                  const SizedBox(width: 8),
                   Text(
                     '${reading.readChapters.length} / ${book.BookData.getChapters(settings.language).length}',
                     style: GoogleFonts.montserrat(
@@ -495,7 +510,8 @@ class _HomeScreenState extends State<HomeScreen> {
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           bgOpacity: 0.05,
           child: ListTile(
-            leading: Icon(Icons.delete_sweep_outlined, color: subColor, size: 20),
+            leading:
+                Icon(Icons.delete_sweep_outlined, color: subColor, size: 20),
             title: Text(
               AppLocalizations.get('clear_history', settings.language),
               style: GoogleFonts.lato(fontSize: 13, color: textColor),
@@ -533,6 +549,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Image.asset(
                     ImageUrls.bookCover,
                     fit: BoxFit.cover,
+                    errorBuilder: (_, __, ___) =>
+                        Container(color: const Color(0xFF13102A)),
                   ),
                 ),
               ),
@@ -561,28 +579,41 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                     const SizedBox(height: 10),
-                    Row(
+                    Wrap(
+                      spacing: 12,
+                      runSpacing: 6,
                       children: [
-                        Icon(Icons.access_time_rounded, size: 12, color: subColor),
-                        const SizedBox(width: 4),
-                        Text(
-                          reading.readingTimeText,
-                          style: GoogleFonts.montserrat(
-                            fontSize: 11,
-                            fontWeight: FontWeight.bold,
-                            color: accent,
-                          ),
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(Icons.access_time_rounded,
+                                size: 12, color: subColor),
+                            const SizedBox(width: 4),
+                            Text(
+                              reading.readingTimeText,
+                              style: GoogleFonts.montserrat(
+                                fontSize: 11,
+                                fontWeight: FontWeight.bold,
+                                color: accent,
+                              ),
+                            ),
+                          ],
                         ),
-                        const SizedBox(width: 16),
-                        Icon(Icons.auto_stories_outlined, size: 12, color: subColor),
-                        const SizedBox(width: 4),
-                        Text(
-                          '${reading.readChapters.length}/$chLen ${AppLocalizations.get('chapter', settings.language).toLowerCase()}',
-                          style: GoogleFonts.montserrat(
-                            fontSize: 11,
-                            fontWeight: FontWeight.bold,
-                            color: accent,
-                          ),
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(Icons.auto_stories_outlined,
+                                size: 12, color: subColor),
+                            const SizedBox(width: 4),
+                            Text(
+                              '${reading.readChapters.length}/$chLen ${AppLocalizations.get('chapter', settings.language).toLowerCase()}',
+                              style: GoogleFonts.montserrat(
+                                fontSize: 11,
+                                fontWeight: FontWeight.bold,
+                                color: accent,
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),
@@ -657,16 +688,18 @@ class _HomeScreenState extends State<HomeScreen> {
               subColor,
               accent,
               isDark,
-            )
-                .animate()
-                .fadeIn(delay: (index * 80).ms)
-                .slideY(begin: 0.1, end: 0, duration: 600.ms, curve: Curves.easeOutCubic);
+            ).animate().fadeIn(delay: (index * 80).ms).slideY(
+                begin: 0.1,
+                end: 0,
+                duration: 600.ms,
+                curve: Curves.easeOutCubic);
           },
         ),
       ],
     );
   }
 
+  // ─── Chapter Card — Vertikal: rasm yuqorida, matn pastda ─────────────────────
   Widget _buildChapterCard(
     BuildContext context,
     int index,
@@ -683,25 +716,32 @@ class _HomeScreenState extends State<HomeScreen> {
     bool isDark,
   ) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 16),
+      margin: const EdgeInsets.only(bottom: 20),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(24),
         boxShadow: isCurrent
             ? [
                 BoxShadow(
-                  color: accent.withValues(alpha: 0.18),
-                  blurRadius: 25,
-                  offset: const Offset(0, 10),
+                  color: accent.withValues(alpha: 0.25),
+                  blurRadius: 30,
+                  offset: const Offset(0, 12),
                 )
               ]
-            : [],
+            : [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.15),
+                  blurRadius: 16,
+                  offset: const Offset(0, 6),
+                )
+              ],
       ),
       child: GlassCard(
         padding: EdgeInsets.zero,
-        bgOpacity: isCurrent ? 0.12 : 0.06,
-        borderOpacity: isCurrent ? 0.25 : 0.10,
+        bgOpacity: isCurrent ? 0.14 : 0.07,
+        borderOpacity: isCurrent ? 0.30 : 0.12,
+        borderRadius: 24,
         child: WaterDropRipple(
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(24),
           onTap: () async {
             await reading.setCurrentChapter(index);
             if (context.mounted) {
@@ -711,138 +751,202 @@ class _HomeScreenState extends State<HomeScreen> {
               );
             }
           },
-          child: Row(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              // Chapter thumbnail with glass overlay on left
+              // ── Yuqori qism: rasm to'liq kenglikda ────────────────────────
               ClipRRect(
                 borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(20),
-                  bottomLeft: Radius.circular(20),
+                  topLeft: Radius.circular(24),
+                  topRight: Radius.circular(24),
                 ),
-                child: Builder(
-                  builder: (context) {
-                    final r = Responsive.of(context);
-                    return SizedBox(
-                      width: r.chapterThumbWidth,
-                      height: r.chapterThumbHeight,
-                      child: Stack(
-                        children: [
-                          Positioned.fill(
-                            child: Image.asset(
-                              ImageUrls.chapterImage(index),
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                          Positioned.fill(
-                            child: Container(
-                              color: (isDark ? Colors.black : Colors.white)
-                                  .withValues(alpha: 0.25),
-                            ),
-                          ),
-                          // Dark overlay gradient fade to right
-                          Positioned.fill(
-                            child: DecoratedBox(
-                              decoration: BoxDecoration(
-                                gradient: LinearGradient(
-                                  begin: Alignment.centerLeft,
-                                  end: Alignment.centerRight,
-                                  colors: [
-                                    Colors.transparent,
-                                    isDark ? const Color(0xFF0D0A1A) : const Color(0xFFF8F0FF),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                ),
-              ),
-              const SizedBox(width: 16),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                child: SizedBox(
+                  height: 180,
+                  child: Stack(
+                    fit: StackFit.expand,
                     children: [
-                      Text(
-                        '${AppLocalizations.get('chapter', settings.language).toUpperCase()} ${index + 1}',
-                        style: GoogleFonts.montserrat(
-                          fontSize: 10,
-                          fontWeight: FontWeight.bold,
-                          letterSpacing: 2.0,
-                          color: accent,
+                      // Asosiy rasm
+                      Image.asset(
+                        ImageUrls.chapterImage(index),
+                        fit: BoxFit.cover,
+                        errorBuilder: (_, __, ___) => Container(
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                              colors: [
+                                const Color(0xFF2D1B69),
+                                accent.withValues(alpha: 0.4),
+                              ],
+                            ),
+                          ),
+                          child: Center(
+                            child: Icon(
+                              Icons.auto_stories_rounded,
+                              color: Colors.white.withValues(alpha: 0.3),
+                              size: 48,
+                            ),
+                          ),
                         ),
                       ),
-                      const SizedBox(height: 4),
-                      Text(
-                        chapter.title,
-                        style: GoogleFonts.playfairDisplay(
-                          fontSize: Responsive.of(context).chapterTitleSize,
-                          fontWeight: FontWeight.bold,
-                          color: textColor,
+                      // Gradiyent overlay — pastdan yuqoriga
+                      Positioned.fill(
+                        child: DecoratedBox(
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                              colors: [
+                                Colors.black.withValues(alpha: 0.10),
+                                Colors.black.withValues(alpha: 0.65),
+                              ],
+                            ),
+                          ),
                         ),
                       ),
-                      const SizedBox(height: 8),
-                      Row(
-                        children: [
-                          Icon(Icons.notes_rounded, size: 12, color: subColor),
-                          const SizedBox(width: 4),
-                          Text(
-                            '$wordCount ${AppLocalizations.get('words', settings.language)}',
-                            style: GoogleFonts.lato(fontSize: 11, color: subColor),
+                      // Bob raqami — yuqori chap burchak
+                      Positioned(
+                        top: 14,
+                        left: 16,
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 12, vertical: 5),
+                          decoration: BoxDecoration(
+                            color: accent.withValues(alpha: 0.85),
+                            borderRadius: BorderRadius.circular(20),
                           ),
-                          const SizedBox(width: 14),
-                          Icon(Icons.access_time_rounded, size: 12, color: subColor),
-                          const SizedBox(width: 4),
-                          Text(
-                            '~$readMinutes ${AppLocalizations.get('estimated_minutes', settings.language)}',
-                            style: GoogleFonts.lato(fontSize: 11, color: subColor),
+                          child: Text(
+                            '${AppLocalizations.get('chapter', settings.language).toUpperCase()} ${index + 1}',
+                            style: GoogleFonts.montserrat(
+                              fontSize: 10,
+                              fontWeight: FontWeight.bold,
+                              letterSpacing: 1.5,
+                              color: Colors.white,
+                            ),
                           ),
-                        ],
+                        ),
+                      ),
+                      // O'qilgan / Joriy holat — yuqori o'ng burchak
+                      Positioned(
+                        top: 12,
+                        right: 14,
+                        child: Container(
+                          width: 32,
+                          height: 32,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: isRead
+                                ? Colors.green.withValues(alpha: 0.85)
+                                : isCurrent
+                                    ? accent.withValues(alpha: 0.85)
+                                    : Colors.black.withValues(alpha: 0.35),
+                            border: Border.all(
+                                color: Colors.white.withValues(alpha: 0.3)),
+                          ),
+                          child: Center(
+                            child: Icon(
+                              isRead
+                                  ? Icons.check_rounded
+                                  : isCurrent
+                                      ? Icons.play_arrow_rounded
+                                      : Icons.lock_open_rounded,
+                              size: 16,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ),
+                      // Bob nomi — rasmdagi pastki qism
+                      Positioned(
+                        bottom: 14,
+                        left: 16,
+                        right: 16,
+                        child: Text(
+                          chapter.title,
+                          style: GoogleFonts.playfairDisplay(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                            height: 1.2,
+                            shadows: [
+                              Shadow(
+                                color: Colors.black.withValues(alpha: 0.7),
+                                blurRadius: 8,
+                              ),
+                            ],
+                          ),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                        ),
                       ),
                     ],
                   ),
                 ),
               ),
-              // Status icon indicator
+
+              // ── Pastki qism: statistika va o'qish tugmasi ─────────────────
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Container(
-                  width: 32,
-                  height: 32,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: isRead
-                        ? Colors.green.withValues(alpha: 0.15)
-                        : isCurrent
-                            ? accent.withValues(alpha: 0.15)
-                            : Colors.white.withValues(alpha: 0.05),
-                    border: Border.all(
-                      color: isRead
-                          ? Colors.green.withValues(alpha: 0.5)
-                          : isCurrent
-                              ? accent.withValues(alpha: 0.5)
-                              : Colors.white.withValues(alpha: 0.1),
+                padding: const EdgeInsets.fromLTRB(16, 14, 16, 16),
+                child: Wrap(
+                  alignment: WrapAlignment.spaceBetween,
+                  crossAxisAlignment: WrapCrossAlignment.center,
+                  spacing: 12,
+                  runSpacing: 8,
+                  children: [
+                    // So'zlar soni
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(Icons.notes_rounded, size: 13, color: subColor),
+                        const SizedBox(width: 5),
+                        Text(
+                          '$wordCount ${AppLocalizations.get('words', settings.language)}',
+                          style: GoogleFonts.lato(fontSize: 12, color: subColor),
+                        ),
+                      ],
                     ),
-                  ),
-                  child: Center(
-                    child: Icon(
-                      isRead
-                          ? Icons.check_circle_outline_rounded
-                          : isCurrent
-                              ? Icons.play_arrow_rounded
-                              : Icons.arrow_forward_ios_rounded,
-                      size: 15,
-                      color: isRead
-                          ? Colors.green
-                          : isCurrent
-                              ? accent
-                              : subColor.withValues(alpha: 0.7),
+                    // O'qish vaqti
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(Icons.access_time_rounded,
+                            size: 13, color: subColor),
+                        const SizedBox(width: 5),
+                        Text(
+                          '~$readMinutes ${AppLocalizations.get('estimated_minutes', settings.language)}',
+                          style: GoogleFonts.lato(fontSize: 12, color: subColor),
+                        ),
+                      ],
                     ),
-                  ),
+                    // O'qish tugmasi
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 14, vertical: 7),
+                      decoration: BoxDecoration(
+                        color: isRead
+                            ? Colors.green.withValues(alpha: 0.15)
+                            : accent.withValues(alpha: 0.15),
+                        borderRadius: BorderRadius.circular(20),
+                        border: Border.all(
+                          color: isRead
+                              ? Colors.green.withValues(alpha: 0.4)
+                              : accent.withValues(alpha: 0.4),
+                        ),
+                      ),
+                      child: Text(
+                        isRead
+                            ? AppLocalizations.get('read', settings.language)
+                            : AppLocalizations.get(
+                                'start_reading', settings.language),
+                        style: GoogleFonts.montserrat(
+                          fontSize: 11,
+                          fontWeight: FontWeight.w600,
+                          color: isRead ? Colors.green : accent,
+                          letterSpacing: 0.3,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ],
@@ -874,13 +978,15 @@ class _HomeScreenState extends State<HomeScreen> {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),
-            child: Text(AppLocalizations.get('cancel', settings.language), style: GoogleFonts.lato()),
+            child: Text(AppLocalizations.get('cancel', settings.language),
+                style: GoogleFonts.lato()),
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.redAccent,
               foregroundColor: Colors.white,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30)),
             ),
             onPressed: () async {
               final prefs = await SharedPreferences.getInstance();
@@ -891,7 +997,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 await settings.init();
               }
             },
-            child: Text(AppLocalizations.get('clear', settings.language), style: GoogleFonts.lato(fontWeight: FontWeight.bold)),
+            child: Text(AppLocalizations.get('clear', settings.language),
+                style: GoogleFonts.lato()),
           ),
         ],
       ),

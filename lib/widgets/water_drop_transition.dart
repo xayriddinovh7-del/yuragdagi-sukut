@@ -34,8 +34,8 @@ class WaterDropPageRoute<T> extends PageRouteBuilder<T> {
     // ── Curves ────────────────────────────────────────────────────────────
     final enterCurve =
         CurvedAnimation(parent: animation, curve: Curves.easeOutCubic);
-    final exitCurve = CurvedAnimation(
-        parent: secondaryAnimation, curve: Curves.easeInCubic);
+    final exitCurve =
+        CurvedAnimation(parent: secondaryAnimation, curve: Curves.easeInCubic);
 
     return Stack(
       children: [

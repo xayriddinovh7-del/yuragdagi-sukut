@@ -69,10 +69,12 @@ class SettingsDrawer extends StatelessWidget {
                             // Header
                             Row(
                               children: [
-                                Icon(Icons.tune_rounded, color: accent, size: 22),
+                                Icon(Icons.tune_rounded,
+                                    color: accent, size: 22),
                                 const SizedBox(width: 10),
                                 Text(
-                                  AppLocalizations.get('settings', settings.language),
+                                  AppLocalizations.get(
+                                      'settings', settings.language),
                                   style: GoogleFonts.playfairDisplay(
                                     fontSize: 22,
                                     fontWeight: FontWeight.bold,
@@ -83,20 +85,29 @@ class SettingsDrawer extends StatelessWidget {
                             ),
 
                             const SizedBox(height: 28),
-                            
+
                             // Language Selector
-                            _sectionLabel(AppLocalizations.get('language', settings.language), subColor),
+                            _sectionLabel(
+                                AppLocalizations.get(
+                                    'language', settings.language),
+                                subColor),
                             const SizedBox(height: 10),
                             Row(
                               children: [
-                                _langPill('uz', "O'zbek", settings, accent, onChanged),
-                                _langPill('ru', 'Русский', settings, accent, onChanged),
-                                _langPill('en', 'English', settings, accent, onChanged),
+                                _langPill('uz', "O'zbek", settings, accent,
+                                    onChanged),
+                                _langPill('ru', 'Русский', settings, accent,
+                                    onChanged),
+                                _langPill('en', 'English', settings, accent,
+                                    onChanged),
                               ],
                             ),
 
                             const SizedBox(height: 24),
-                            _sectionLabel(AppLocalizations.get('theme', settings.language), subColor),
+                            _sectionLabel(
+                                AppLocalizations.get(
+                                    'theme', settings.language),
+                                subColor),
                             const SizedBox(height: 10),
                             // Theme pills
                             Row(
@@ -104,11 +115,13 @@ class SettingsDrawer extends StatelessWidget {
                                 final isSel = settings.readingTheme == t;
                                 return Expanded(
                                   child: Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 3),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 3),
                                     child: GlassButton(
                                       label: _themeLabel(t, settings.language),
                                       icon: t.icon,
-                                      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 10),
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 6, vertical: 10),
                                       selected: isSel,
                                       accentColor: accent,
                                       onTap: () {
@@ -122,7 +135,10 @@ class SettingsDrawer extends StatelessWidget {
                             ),
 
                             const SizedBox(height: 24),
-                            _sectionLabel(AppLocalizations.get('font_size', settings.language), subColor),
+                            _sectionLabel(
+                                AppLocalizations.get(
+                                    'font_size', settings.language),
+                                subColor),
                             const SizedBox(height: 6),
                             Row(
                               children: [
@@ -141,11 +157,13 @@ class SettingsDrawer extends StatelessWidget {
                                       inactiveTrackColor:
                                           accent.withValues(alpha: 0.18),
                                       thumbColor: accent,
-                                      overlayColor: accent.withValues(alpha: 0.12),
+                                      overlayColor:
+                                          accent.withValues(alpha: 0.12),
                                       trackHeight: 3,
                                     ),
                                     child: Slider(
-                                      value: settings.fontSize.clamp(12.0, 32.0),
+                                      value:
+                                          settings.fontSize.clamp(12.0, 32.0),
                                       min: 12,
                                       max: 32,
                                       onChanged: (v) {
@@ -176,7 +194,10 @@ class SettingsDrawer extends StatelessWidget {
                             ),
 
                             const SizedBox(height: 20),
-                            _sectionLabel(AppLocalizations.get('font_family', settings.language), subColor),
+                            _sectionLabel(
+                                AppLocalizations.get(
+                                    'font_family', settings.language),
+                                subColor),
                             const SizedBox(height: 10),
                             Wrap(
                               spacing: 8,
@@ -201,26 +222,51 @@ class SettingsDrawer extends StatelessWidget {
                             ),
 
                             const SizedBox(height: 20),
-                            _sectionLabel(AppLocalizations.get('line_height', settings.language), subColor),
+                            _sectionLabel(
+                                AppLocalizations.get(
+                                    'line_height', settings.language),
+                                subColor),
                             const SizedBox(height: 10),
                             Row(
                               children: [
-                                _lhPill(1.5, AppLocalizations.get('lh_compact', settings.language), settings, accent, onChanged),
+                                _lhPill(
+                                    1.5,
+                                    AppLocalizations.get(
+                                        'lh_compact', settings.language),
+                                    settings,
+                                    accent,
+                                    onChanged),
                                 const SizedBox(width: 8),
-                                _lhPill(1.8, AppLocalizations.get('lh_normal', settings.language), settings, accent, onChanged),
+                                _lhPill(
+                                    1.8,
+                                    AppLocalizations.get(
+                                        'lh_normal', settings.language),
+                                    settings,
+                                    accent,
+                                    onChanged),
                                 const SizedBox(width: 8),
-                                _lhPill(2.2, AppLocalizations.get('lh_wide', settings.language), settings, accent, onChanged),
+                                _lhPill(
+                                    2.2,
+                                    AppLocalizations.get(
+                                        'lh_wide', settings.language),
+                                    settings,
+                                    accent,
+                                    onChanged),
                               ],
                             ),
 
                             const SizedBox(height: 20),
-                            _sectionLabel(AppLocalizations.get('page_width', settings.language), subColor),
+                            _sectionLabel(
+                                AppLocalizations.get(
+                                    'page_width', settings.language),
+                                subColor),
                             const SizedBox(height: 10),
                             Row(
                               children: ReadingWidth.values.map((w) {
                                 return Expanded(
                                   child: Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 3),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 3),
                                     child: GlassButton(
                                       label: _widthLabel(w, settings.language),
                                       selected: settings.readingWidth == w,
@@ -238,13 +284,17 @@ class SettingsDrawer extends StatelessWidget {
                             const SizedBox(height: 20),
                             _divider(subColor),
                             const SizedBox(height: 16),
-                            _sectionLabel(AppLocalizations.get('auto_scroll', settings.language), subColor),
+                            _sectionLabel(
+                                AppLocalizations.get(
+                                    'auto_scroll', settings.language),
+                                subColor),
                             const SizedBox(height: 6),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  AppLocalizations.get('hands_free', settings.language),
+                                  AppLocalizations.get(
+                                      'hands_free', settings.language),
                                   style: GoogleFonts.lato(
                                       fontSize: 13, color: textColor),
                                 ),
@@ -262,9 +312,12 @@ class SettingsDrawer extends StatelessWidget {
                             if (settings.autoScroll) ...[
                               const SizedBox(height: 6),
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text(AppLocalizations.get('speed', settings.language),
+                                  Text(
+                                      AppLocalizations.get(
+                                          'speed', settings.language),
                                       style: GoogleFonts.lato(
                                           fontSize: 12, color: subColor)),
                                   Text(
@@ -280,7 +333,8 @@ class SettingsDrawer extends StatelessWidget {
                               SliderTheme(
                                 data: SliderThemeData(
                                   activeTrackColor: accent,
-                                  inactiveTrackColor: accent.withValues(alpha: 0.15),
+                                  inactiveTrackColor:
+                                      accent.withValues(alpha: 0.15),
                                   thumbColor: accent,
                                   overlayColor: accent.withValues(alpha: 0.12),
                                   trackHeight: 3,
@@ -308,9 +362,11 @@ class SettingsDrawer extends StatelessWidget {
                                   settings.resetDefaults();
                                   onChanged?.call();
                                 },
-                                icon: Icon(Icons.refresh_rounded, color: subColor, size: 16),
+                                icon: Icon(Icons.refresh_rounded,
+                                    color: subColor, size: 16),
                                 label: Text(
-                                  AppLocalizations.get('reset', settings.language),
+                                  AppLocalizations.get(
+                                      'reset', settings.language),
                                   style: GoogleFonts.lato(
                                       fontSize: 13, color: subColor),
                                 ),
