@@ -22,6 +22,7 @@ import '../../widgets/bookmark_panel.dart';
 import '../../painters/rain_painter.dart';
 import '../../painters/floating_orbs.dart';
 import '../../utils/responsive.dart';
+import '../../core/constants/translations.dart';
 
 class ReaderScreen extends StatefulWidget {
   final int chapterIndex;
@@ -146,7 +147,9 @@ class _ReaderScreenState extends State<ReaderScreen> {
   }
 
   void _goToChapter(int index) {
-    if (index >= 0 && index < book.BookData.chapters.length) {
+    final lang = Provider.of<SettingsProvider>(context, listen: false).language;
+    final chapters = book.BookData.getChapters(lang);
+    if (index >= 0 && index < chapters.length) {
       setState(() {
         _currentIndex = index;
         _showControls = true;
@@ -164,7 +167,8 @@ class _ReaderScreenState extends State<ReaderScreen> {
   }
 
   void _nextChapter() {
-    if (_currentIndex < book.BookData.chapters.length - 1) {
+    final lang = Provider.of<SettingsProvider>(context, listen: false).language;
+    if (_currentIndex < book.BookData.getChapters(lang).length - 1) {
       _goToChapter(_currentIndex + 1);
     }
   }
@@ -208,6 +212,7 @@ class _ReaderScreenState extends State<ReaderScreen> {
         bookmarkProvider.isBookmarked(_currentIndex, paragraphIndex);
     final settings = Provider.of<SettingsProvider>(context, listen: false);
     final theme = settings.readingTheme;
+    final lang = settings.language;
 
     showModalBottomSheet(
       context: context,
@@ -227,7 +232,7 @@ class _ReaderScreenState extends State<ReaderScreen> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    'Abzats sozlamalari',
+                    AppLocalizations.get('paragraph_options', lang),
                     style: GoogleFonts.montserrat(
                       fontWeight: FontWeight.bold,
                       fontSize: 16,
@@ -260,8 +265,8 @@ class _ReaderScreenState extends State<ReaderScreen> {
                     ),
                     title: Text(
                       isBookmarked
-                          ? 'Xatchupni olib tashlash'
-                          : 'Xatchupga qo\'shish',
+                          ? AppLocalizations.get('bookmark_remove', lang)
+                          : AppLocalizations.get('bookmark_add', lang),
                       style: GoogleFonts.lato(color: theme.textColor),
                     ),
                     onTap: () async {
@@ -269,7 +274,8 @@ class _ReaderScreenState extends State<ReaderScreen> {
                       if (isBookmarked) {
                         await bookmarkProvider.removeBookmark(
                             _currentIndex, paragraphIndex);
-                        _showSnackBar('Xatchup olib tashlandi.');
+                        _showSnackBar(
+                            AppLocalizations.get('bookmark_removed', lang));
                       } else {
                         final b = Bookmark(
                           chapterIndex: _currentIndex,
@@ -279,7 +285,8 @@ class _ReaderScreenState extends State<ReaderScreen> {
                           savedAt: DateTime.now(),
                         );
                         await bookmarkProvider.addBookmark(b);
-                        _showSnackBar('Xatchup qo\'shildi!');
+                        _showSnackBar(
+                            AppLocalizations.get('bookmark_added', lang));
                       }
                     },
                   ),
@@ -287,7 +294,7 @@ class _ReaderScreenState extends State<ReaderScreen> {
                     leading:
                         Icon(Icons.note_add_outlined, color: theme.accentColor),
                     title: Text(
-                      'Izoh/Qayd qo\'shish',
+                      AppLocalizations.get('add_note', lang),
                       style: GoogleFonts.lato(color: theme.textColor),
                     ),
                     onTap: () {
@@ -298,13 +305,14 @@ class _ReaderScreenState extends State<ReaderScreen> {
                   ListTile(
                     leading: Icon(Icons.copy_rounded, color: theme.accentColor),
                     title: Text(
-                      'Nusxa olish',
+                      AppLocalizations.get('copy_text', lang),
                       style: GoogleFonts.lato(color: theme.textColor),
                     ),
                     onTap: () {
                       Clipboard.setData(ClipboardData(text: text));
                       Navigator.pop(ctx);
-                      _showSnackBar('Matn nusxalandi.');
+                      _showSnackBar(
+                          AppLocalizations.get('text_copied', lang));
                     },
                   ),
                 ],
@@ -322,6 +330,7 @@ class _ReaderScreenState extends State<ReaderScreen> {
         Provider.of<BookmarkProvider>(context, listen: false);
     final settings = Provider.of<SettingsProvider>(context, listen: false);
     final theme = settings.readingTheme;
+    final lang = settings.language;
     final noteController = TextEditingController();
 
     showDialog(
@@ -337,7 +346,7 @@ class _ReaderScreenState extends State<ReaderScreen> {
                   color: Colors.white.withValues(alpha: 0.15), width: 1.5),
             ),
             title: Text(
-              'Qayd qo\'shish',
+              AppLocalizations.get('add_note_title', lang),
               style: GoogleFonts.playfairDisplay(
                 color: theme.textColor,
                 fontWeight: FontWeight.bold,
@@ -362,7 +371,7 @@ class _ReaderScreenState extends State<ReaderScreen> {
                   maxLines: 3,
                   style: TextStyle(color: theme.textColor),
                   decoration: InputDecoration(
-                    hintText: 'Fikrlaringiz yoki qaydlaringiz...',
+                    hintText: AppLocalizations.get('note_hint', lang),
                     hintStyle: TextStyle(
                         color: theme.textColor.withValues(alpha: 0.4)),
                     filled: true,
@@ -384,7 +393,7 @@ class _ReaderScreenState extends State<ReaderScreen> {
             actions: [
               TextButton(
                 onPressed: () => Navigator.pop(ctx),
-                child: Text('Bekor qilish',
+                child: Text(AppLocalizations.get('cancel', lang),
                     style: TextStyle(
                         color: theme.textColor.withValues(alpha: 0.6))),
               ),
@@ -408,9 +417,9 @@ class _ReaderScreenState extends State<ReaderScreen> {
                   );
                   await bookmarkProvider.addBookmark(b);
                   if (ctx.mounted) Navigator.pop(ctx);
-                  _showSnackBar('Izohli xatchup saqlandi.');
+                  _showSnackBar(AppLocalizations.get('note_saved', lang));
                 },
-                child: Text('Saqlash',
+                child: Text(AppLocalizations.get('save', lang),
                     style: GoogleFonts.lato(fontWeight: FontWeight.bold)),
               ),
             ],
@@ -441,8 +450,10 @@ class _ReaderScreenState extends State<ReaderScreen> {
     final settingsProvider = Provider.of<SettingsProvider>(context);
     final bookmarkProvider = Provider.of<BookmarkProvider>(context);
     final readingProvider = Provider.of<ReadingProvider>(context);
+    final lang = settingsProvider.language;
 
-    final chapter = book.BookData.chapters[_currentIndex];
+    final chapters = book.BookData.getChapters(lang);
+    final chapter = chapters[_currentIndex.clamp(0, chapters.length - 1)];
     final theme = settingsProvider.readingTheme;
     final accentColor = theme.accentColor;
     final textColor = theme.textColor;
@@ -557,7 +568,7 @@ class _ReaderScreenState extends State<ReaderScreen> {
                       currentChapterIndex: _currentIndex,
                       readChapters: readingProvider.readChapters,
                       overallProgress: readingProvider.progress,
-                      progressText: readingProvider.progressText,
+                      progressText: readingProvider.progressText(lang),
                       onChapterSelected: (idx) => _goToChapter(idx),
                       accentColor: accentColor,
                       theme: theme,
@@ -738,7 +749,7 @@ class _ReaderScreenState extends State<ReaderScreen> {
                             const SizedBox(width: 8),
                             GlassPillIconButton(
                               icon: Icons.arrow_back_ios_new_rounded,
-                              tooltip: 'Orqaga',
+                              tooltip: AppLocalizations.get('back', lang),
                               onTap: () => context.go('/home'),
                             ),
                             const SizedBox(width: 14),
@@ -756,13 +767,13 @@ class _ReaderScreenState extends State<ReaderScreen> {
                             ),
                             GlassPillIconButton(
                               icon: theme.icon,
-                              tooltip: 'Mavzuni o\'zgartirish',
+                              tooltip: AppLocalizations.get('theme_change', lang),
                               onTap: () => settingsProvider.cycleTheme(),
                             ),
                             const SizedBox(width: 8),
                             GlassPillIconButton(
                               icon: Icons.bookmarks_rounded,
-                              tooltip: 'Xatchuplar',
+                              tooltip: AppLocalizations.get('bookmarks_list', lang),
                               onTap: () {
                                 showModalBottomSheet(
                                   context: context,
@@ -779,7 +790,7 @@ class _ReaderScreenState extends State<ReaderScreen> {
                             const SizedBox(width: 8),
                             GlassPillIconButton(
                               icon: Icons.text_fields_rounded,
-                              tooltip: 'Mutolaa sozlamalari',
+                              tooltip: AppLocalizations.get('reader_settings', lang),
                               onTap: () {
                                 _scaffoldKey.currentState?.openEndDrawer();
                               },
@@ -846,7 +857,7 @@ class _ReaderScreenState extends State<ReaderScreen> {
                                     color: accentColor.withValues(alpha: 0.2)),
                               ),
                               child: Text(
-                                'BOB ${_currentIndex + 1} / ${book.BookData.chapters.length}',
+                                '${AppLocalizations.get('chapter_label', lang)} ${_currentIndex + 1} / ${chapters.length}',
                                 style: GoogleFonts.montserrat(
                                   color: accentColor,
                                   fontWeight: FontWeight.bold,
@@ -858,12 +869,10 @@ class _ReaderScreenState extends State<ReaderScreen> {
                             const SizedBox(width: 14),
                             GlassPillIconButton(
                               icon: Icons.chevron_right_rounded,
-                              color: _currentIndex <
-                                      book.BookData.chapters.length - 1
+                              color: _currentIndex < chapters.length - 1
                                   ? theme.textColor
                                   : theme.textColor.withValues(alpha: 0.25),
-                              onTap: _currentIndex <
-                                      book.BookData.chapters.length - 1
+                              onTap: _currentIndex < chapters.length - 1
                                   ? _nextChapter
                                   : null,
                             ),
@@ -885,6 +894,8 @@ class _ReaderScreenState extends State<ReaderScreen> {
   Widget _buildChapterHeader(
       book.Chapter chapter, ReadingTheme theme, Color accentColor) {
     final r = Responsive.of(context);
+    final lang =
+        Provider.of<SettingsProvider>(context, listen: false).language;
     return Column(
       children: [
         // Mood image
@@ -898,9 +909,9 @@ class _ReaderScreenState extends State<ReaderScreen> {
         ),
         const SizedBox(height: 24),
 
-        // Bob label
+        // Chapter label
         Text(
-          'BOB ${chapter.index + 1}',
+          '${AppLocalizations.get('chapter_label', lang)} ${chapter.index + 1}',
           style: GoogleFonts.lato(
             letterSpacing: 6,
             fontSize: 11,
@@ -946,7 +957,7 @@ class _ReaderScreenState extends State<ReaderScreen> {
 
         // Estimated reading time
         Text(
-          '~${(chapter.content.length / 900).ceil()} daqiqa mutolaa',
+          '~${(chapter.content.length / 900).ceil()} ${AppLocalizations.get('estimated_read', lang)}',
           style: GoogleFonts.lato(
             color: theme.textColor.withValues(alpha: 0.4),
             fontSize: 11,
@@ -1038,9 +1049,12 @@ class _ReaderScreenState extends State<ReaderScreen> {
   // ─── Chapter flourish and next chapter teaser ──────────────────────────────────
   Widget _buildEndFlourish(BuildContext context, int currentChapterIndex,
       Color accentColor, ReadingTheme theme) {
+    final lang =
+        Provider.of<SettingsProvider>(context, listen: false).language;
+    final localChapters = book.BookData.getChapters(lang);
     final nextIndex = currentChapterIndex + 1;
-    final hasNext = nextIndex < book.BookData.chapters.length;
-    final nextChapter = hasNext ? book.BookData.chapters[nextIndex] : null;
+    final hasNext = nextIndex < localChapters.length;
+    final nextChapter = hasNext ? localChapters[nextIndex] : null;
 
     return Column(
       children: [
@@ -1074,7 +1088,7 @@ class _ReaderScreenState extends State<ReaderScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'NAVBATDAGI BOB',
+                    AppLocalizations.get('next_chapter_label', lang),
                     style: GoogleFonts.lato(
                       letterSpacing: 4,
                       fontSize: 10,
@@ -1084,7 +1098,7 @@ class _ReaderScreenState extends State<ReaderScreen> {
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    'Bob ${nextIndex + 1}: ${nextChapter.title}',
+                    '${AppLocalizations.get('chapter', lang)} ${nextIndex + 1}: ${nextChapter.title}',
                     style: GoogleFonts.playfairDisplay(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
@@ -1107,7 +1121,7 @@ class _ReaderScreenState extends State<ReaderScreen> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       Text(
-                        'O\'qishni davom ettirish',
+                        AppLocalizations.get('continue_next', lang),
                         style: GoogleFonts.lato(
                           fontSize: 13,
                           fontWeight: FontWeight.bold,
@@ -1131,7 +1145,7 @@ class _ReaderScreenState extends State<ReaderScreen> {
             child: Column(
               children: [
                 Text(
-                  'TAMOM',
+                  AppLocalizations.get('book_finished', lang),
                   style: GoogleFonts.playfairDisplay(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
@@ -1141,7 +1155,7 @@ class _ReaderScreenState extends State<ReaderScreen> {
                 ),
                 const SizedBox(height: 12),
                 Text(
-                  'Siz "Yuragdagi Sukut" romanini to\'liq o\'qib chiqdingiz. Mutolaa uchun tashakkur!',
+                  AppLocalizations.get('book_finished_text', lang),
                   textAlign: TextAlign.center,
                   style: GoogleFonts.lato(
                     fontSize: 14,
@@ -1182,6 +1196,9 @@ class _Sidebar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final r = Responsive.of(context);
+    final lang =
+        Provider.of<SettingsProvider>(context, listen: false).language;
+    final localChapters = book.BookData.getChapters(lang);
     return Container(
       width: r.readerSidebarWidth,
       decoration: BoxDecoration(
@@ -1228,7 +1245,7 @@ class _Sidebar extends StatelessWidget {
                     ),
                     const SizedBox(height: 16),
                     Text(
-                      book.BookData.title,
+                      book.BookData.getTitle(lang),
                       textAlign: TextAlign.center,
                       style: GoogleFonts.playfairDisplay(
                         fontSize: 20,
@@ -1238,7 +1255,7 @@ class _Sidebar extends StatelessWidget {
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      book.BookData.author,
+                      book.BookData.getAuthor(lang),
                       style: GoogleFonts.lato(
                         fontSize: 12,
                         color: theme.textColor.withValues(alpha: 0.5),
@@ -1288,7 +1305,7 @@ class _Sidebar extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Mutolaa progressi',
+                            AppLocalizations.get('reading_progress', lang),
                             style: GoogleFonts.lato(
                               fontSize: 11,
                               color: theme.textColor.withValues(alpha: 0.5),
@@ -1316,9 +1333,9 @@ class _Sidebar extends StatelessWidget {
               Expanded(
                 child: ListView.builder(
                   padding: const EdgeInsets.symmetric(vertical: 8),
-                  itemCount: book.BookData.chapters.length,
+                  itemCount: localChapters.length,
                   itemBuilder: (context, idx) {
-                    final ch = book.BookData.chapters[idx];
+                    final ch = localChapters[idx];
                     final isCurrent = idx == currentChapterIndex;
                     final isRead = readChapters.contains(idx);
 

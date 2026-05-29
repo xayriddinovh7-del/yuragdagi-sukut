@@ -7,6 +7,7 @@ import '../core/theme/app_colors.dart';
 import '../providers/bookmark_provider.dart';
 import '../providers/reading_provider.dart';
 import '../providers/settings_provider.dart';
+import '../core/constants/translations.dart';
 
 class BookmarkPanel extends StatelessWidget {
   final Function(int chapterIndex, int paragraphIndex)? onNavigate;
@@ -25,6 +26,7 @@ class BookmarkPanel extends StatelessWidget {
             final subColor = theme.subTextColor;
             final accent = theme.accentColor;
             final isDark = theme.isDark;
+            final lang = settings.language;
 
             final bookmarks = bookmarkProv.bookmarks;
 
@@ -72,7 +74,7 @@ class BookmarkPanel extends StatelessWidget {
                             Icon(Icons.bookmarks_rounded, color: accent, size: 22),
                             const SizedBox(width: 10),
                             Text(
-                              'Xatchuplar',
+                              AppLocalizations.get('bookmarks_list', lang),
                               style: GoogleFonts.playfairDisplay(
                                 fontSize: 24,
                                 fontWeight: FontWeight.bold,
@@ -81,7 +83,7 @@ class BookmarkPanel extends StatelessWidget {
                             ),
                             const Spacer(),
                             Text(
-                              '${bookmarks.length} ta belgi',
+                              '${bookmarks.length} ${AppLocalizations.get('bookmarks_count', lang)}',
                               style: GoogleFonts.lato(fontSize: 12, color: subColor),
                             ),
                           ],
@@ -91,7 +93,7 @@ class BookmarkPanel extends StatelessWidget {
                       const SizedBox(height: 12),
                       Expanded(
                         child: bookmarks.isEmpty
-                            ? _buildEmptyState(subColor)
+                            ? _buildEmptyState(subColor, lang)
                             : ListView.builder(
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 24, vertical: 12),
@@ -106,6 +108,7 @@ class BookmarkPanel extends StatelessWidget {
                                     accent,
                                     isDark,
                                     bookmarkProv,
+                                    lang,
                                   );
                                 },
                               ),
@@ -121,7 +124,7 @@ class BookmarkPanel extends StatelessWidget {
     );
   }
 
-  Widget _buildEmptyState(Color subColor) {
+  Widget _buildEmptyState(Color subColor, String lang) {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -129,7 +132,7 @@ class BookmarkPanel extends StatelessWidget {
           Icon(Icons.bookmark_border_rounded, size: 64, color: subColor.withValues(alpha: 0.4)),
           const SizedBox(height: 16),
           Text(
-            'Hozircha xatchuplar yo\'q',
+            AppLocalizations.get('no_bookmarks_title', lang),
             style: GoogleFonts.playfairDisplay(
               fontSize: 18,
               fontWeight: FontWeight.bold,
@@ -138,7 +141,8 @@ class BookmarkPanel extends StatelessWidget {
           ),
           const SizedBox(height: 6),
           Text(
-            'Mutolaa davomida muhim satrlarni belgilab boring',
+            AppLocalizations.get('no_bookmarks_sub', lang),
+            textAlign: TextAlign.center,
             style: GoogleFonts.lato(
               fontSize: 13,
               color: subColor.withValues(alpha: 0.6),
@@ -158,6 +162,7 @@ class BookmarkPanel extends StatelessWidget {
     Color accent,
     bool isDark,
     BookmarkProvider prov,
+    String lang,
   ) {
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
@@ -198,7 +203,7 @@ class BookmarkPanel extends StatelessWidget {
                         ),
                       ),
                       child: Text(
-                        'BOB ${bm.chapterIndex + 1}',
+                        '${AppLocalizations.get('chapter_badge', lang)} ${bm.chapterIndex + 1}',
                         style: GoogleFonts.lato(
                           fontSize: 10,
                           fontWeight: FontWeight.bold,
@@ -278,10 +283,12 @@ class BookmarkPanel extends StatelessWidget {
                         minimumSize: Size.zero,
                         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                       ),
-                      onPressed: () => _showNoteDialog(context, bm, prov, textColor, isDark),
+                      onPressed: () => _showNoteDialog(context, bm, prov, textColor, isDark, lang),
                       icon: Icon(Icons.mode_edit_outline_outlined, size: 12, color: subColor),
                       label: Text(
-                        bm.note == null ? 'Eslatma qo\'shish' : 'Tahrirlash',
+                        bm.note == null
+                            ? AppLocalizations.get('add_note_short', lang)
+                            : AppLocalizations.get('edit_note', lang),
                         style: GoogleFonts.lato(fontSize: 11, color: subColor),
                       ),
                     ),
@@ -305,6 +312,7 @@ class BookmarkPanel extends StatelessWidget {
     BookmarkProvider prov,
     Color textColor,
     bool isDark,
+    String lang,
   ) {
     final controller = TextEditingController(text: bm.note ?? '');
 
@@ -317,7 +325,7 @@ class BookmarkPanel extends StatelessWidget {
             backgroundColor: isDark ? const Color(0xFF13102A) : Colors.white,
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
             title: Text(
-              'Eslatma',
+              AppLocalizations.get('note_dialog_title', lang),
               style: GoogleFonts.playfairDisplay(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
@@ -329,7 +337,7 @@ class BookmarkPanel extends StatelessWidget {
               maxLines: 3,
               style: GoogleFonts.lato(color: textColor),
               decoration: InputDecoration(
-                hintText: 'Fikringizni yozing...',
+                hintText: AppLocalizations.get('note_dialog_hint', lang),
                 hintStyle: GoogleFonts.lato(color: textColor.withValues(alpha: 0.4)),
                 focusedBorder: UnderlineInputBorder(
                   borderSide: BorderSide(color: isDark ? const Color(0xFF9B59B6) : const Color(0xFF7C3AED)),
@@ -339,7 +347,10 @@ class BookmarkPanel extends StatelessWidget {
             actions: [
               TextButton(
                 onPressed: () => Navigator.pop(ctx),
-                child: Text('Bekor qilish', style: GoogleFonts.lato(color: textColor.withValues(alpha: 0.7))),
+                child: Text(
+                  AppLocalizations.get('cancel', lang),
+                  style: GoogleFonts.lato(color: textColor.withValues(alpha: 0.7)),
+                ),
               ),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
@@ -351,7 +362,10 @@ class BookmarkPanel extends StatelessWidget {
                   prov.addBookmark(bm.copyWith(note: controller.text));
                   Navigator.pop(ctx);
                 },
-                child: Text('Saqlash', style: GoogleFonts.lato(fontWeight: FontWeight.bold)),
+                child: Text(
+                  AppLocalizations.get('save', lang),
+                  style: GoogleFonts.lato(fontWeight: FontWeight.bold),
+                ),
               ),
             ],
           ),

@@ -3,6 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../services/auth_service.dart';
 import '../services/firestore_service.dart';
 import '../services/sync_service.dart';
+import '../core/constants/translations.dart';
 
 class ReadingProvider extends ChangeNotifier {
   int _currentChapter = 0;
@@ -24,11 +25,11 @@ class ReadingProvider extends ChangeNotifier {
     return _readChapters.length / total;
   }
 
-  String get progressText {
+  String progressText([String lang = 'uz']) {
     final pct = (progress * 100).toInt();
-    if (pct == 0) return 'Boshlanmagan';
-    if (pct >= 100) return 'Tugallangan ✓';
-    return '$pct% o\'qilgan';
+    if (pct == 0) return AppLocalizations.get('progress_not_started', lang);
+    if (pct >= 100) return AppLocalizations.get('progress_completed', lang);
+    return '$pct${AppLocalizations.get('progress_percent', lang)}';
   }
 
   double getScrollPosition(int chapterIndex) =>
@@ -186,11 +187,13 @@ class ReadingProvider extends ChangeNotifier {
 
   bool isChapterRead(int index) => _readChapters.contains(index);
 
-  String get readingTimeText {
-    if (_totalReadingMinutes < 60) return '$_totalReadingMinutes daqiqa';
+  String readingTimeText([String lang = 'uz']) {
+    if (_totalReadingMinutes < 60) {
+      return '$_totalReadingMinutes ${AppLocalizations.get('reading_time_minutes', lang)}';
+    }
     final h = _totalReadingMinutes ~/ 60;
     final m = _totalReadingMinutes % 60;
-    return '${h}s ${m}d';
+    return '$h${AppLocalizations.get('reading_time_hours', lang)} $m${AppLocalizations.get('reading_time_minutes_short', lang)}';
   }
 
   /// Progressni tiklash (test uchun)

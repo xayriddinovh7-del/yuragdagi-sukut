@@ -446,7 +446,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   const SizedBox(width: 8),
                   Text(
-                    reading.readingTimeText,
+                    reading.readingTimeText(settings.language),
                     style: GoogleFonts.montserrat(
                       fontWeight: FontWeight.bold,
                       fontSize: 13,
@@ -491,7 +491,7 @@ class _HomeScreenState extends State<HomeScreen> {
               Align(
                 alignment: Alignment.centerRight,
                 child: Text(
-                  reading.progressText,
+                  reading.progressText(settings.language),
                   style: GoogleFonts.lato(
                     fontSize: 11,
                     fontWeight: FontWeight.bold,
@@ -590,7 +590,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 size: 12, color: subColor),
                             const SizedBox(width: 4),
                             Text(
-                              reading.readingTimeText,
+                              reading.readingTimeText(settings.language),
                               style: GoogleFonts.montserrat(
                                 fontSize: 11,
                                 fontWeight: FontWeight.bold,
