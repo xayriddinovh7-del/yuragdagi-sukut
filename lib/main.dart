@@ -13,7 +13,6 @@ import 'app.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // ── Global Flutter xato tutgich ────────────────────────────────────────────
   FlutterError.onError = (FlutterErrorDetails details) {
     final exceptionStr = details.exceptionAsString();
     if (exceptionStr.contains('google_fonts') ||
@@ -28,7 +27,6 @@ void main() async {
     FlutterError.presentError(details);
   };
 
-  // ── Asenkron global xato tutgich ───────────────────────────────────────────
   PlatformDispatcher.instance.onError = (Object error, StackTrace stack) {
     final errorStr = error.toString();
     if (errorStr.contains('google_fonts') ||
@@ -38,14 +36,11 @@ void main() async {
         errorStr.contains('Unable to load asset') ||
         errorStr.contains('HTTP request succeeded')) {
       debugPrint('ℹ️ Handled asynchronous error: $error');
-      return true; // Marks the error as handled to prevent runtime crashes
+      return true;
     }
-    return false; // Propagates other unhandled errors
+    return false;
   };
 
-  // ── Firebase ishga tushirish ───────────────────────────────────────────────
-  // Web platformasida Firebase Options majburiy — u bo'lmasa local rejimda ishla.
-  // Native platformalarda (Android/iOS) google-services.json avtomatik topiladi.
   if (!kIsWeb) {
     try {
       await Firebase.initializeApp();
@@ -55,7 +50,8 @@ void main() async {
       debugPrint('ℹ️ Firebase not configured, running in local mode: $e');
     }
   } else {
-    debugPrint('ℹ️ Web platformasida Firebase sozlanmagan — local rejimda ishlamoqda.');
+    debugPrint(
+        'ℹ️ Web platformasida Firebase sozlanmagan — local rejimda ishlamoqda.');
   }
 
   final readingProvider = ReadingProvider();
