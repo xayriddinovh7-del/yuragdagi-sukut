@@ -1,4 +1,4 @@
-name: Deploy Flutter Web to GitHub Pages
+name: 🚀 Deploy Flutter Web → yurakdaagi-sukut.com
 
 on:
   push:
@@ -13,31 +13,40 @@ permissions:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    name: Build va Deploy
 
     steps:
-      - name: Checkout kodi
+      # 1. Kodni yuklab olish
+      - name: 📥 Kodni checkout qilish
         uses: actions/checkout@v4
 
-      - name: Flutter o'rnatish
+      # 2. Flutter o'rnatish
+      - name: 🐦 Flutter o'rnatish
         uses: subosito/flutter-action@v2
         with:
           flutter-version: '3.x'
           channel: 'stable'
           cache: true
 
-      - name: Paketlarni o'rnatish
+      # 3. Paketlar
+      - name: 📦 Paketlarni o'rnatish
         run: flutter pub get
 
-      - name: Web uchun build
+      # 4. Web build
+      - name: 🔨 Flutter Web build
         run: flutter build web --release --base-href "/"
 
-      - name: CNAME faylini build papkasiga nusxalash
+      # 5. CNAME nusxalash
+      - name: 🌐 CNAME faylini qo'shish
         run: cp web/CNAME build/web/CNAME
 
-      - name: GitHub Pages ga deploy
+      # 6. GitHub Pages ga deploy
+      - name: 🚀 GitHub Pages ga deploy
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./build/web
           publish_branch: gh-pages
           cname: yurakdaagi-sukut.com
+          commit_message: "deploy: ${{ github.sha }} — yurakdaagi-sukut.com"
+          force_orphan: true

@@ -10,7 +10,7 @@ import 'providers/auth_provider.dart';
 import 'providers/book_provider.dart';
 import 'services/sync_service.dart';
 import 'app.dart';
-
+ 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
