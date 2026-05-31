@@ -7,6 +7,7 @@ import 'providers/reading_provider.dart';
 import 'providers/settings_provider.dart';
 import 'providers/bookmark_provider.dart';
 import 'providers/auth_provider.dart';
+import 'providers/book_provider.dart';
 import 'services/sync_service.dart';
 import 'app.dart';
 
@@ -58,11 +59,13 @@ void main() async {
   final settingsProvider = SettingsProvider();
   final bookmarkProvider = BookmarkProvider();
   final authProvider = AuthProvider();
+  final bookProvider = BookProvider();
 
   await Future.wait([
     readingProvider.init(),
     settingsProvider.init(),
     bookmarkProvider.init(),
+    bookProvider.init(),
   ]);
 
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
@@ -76,6 +79,7 @@ void main() async {
         ChangeNotifierProvider.value(value: readingProvider),
         ChangeNotifierProvider.value(value: settingsProvider),
         ChangeNotifierProvider.value(value: bookmarkProvider),
+        ChangeNotifierProvider.value(value: bookProvider),
       ],
       child: const AytilmaganGaplarApp(),
     ),

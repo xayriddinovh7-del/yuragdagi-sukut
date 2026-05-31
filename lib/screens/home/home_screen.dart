@@ -10,6 +10,7 @@ import '../../models/book_data.dart' as book;
 import '../../providers/reading_provider.dart';
 import '../../providers/settings_provider.dart';
 import '../../providers/bookmark_provider.dart';
+import '../../providers/book_provider.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/constants/image_urls.dart';
 import '../../painters/rain_painter.dart';
@@ -66,6 +67,8 @@ class _HomeScreenState extends State<HomeScreen> {
     final readingProv = Provider.of<ReadingProvider>(context);
     final settingsProv = Provider.of<SettingsProvider>(context);
     final bookmarkProv = Provider.of<BookmarkProvider>(context);
+    // BookProvider ham listen:true bilan, yangilanishlarni UI ga aks ettirish uchun
+    Provider.of<BookProvider>(context);
 
     final theme = settingsProv.readingTheme;
     final bg = theme.bgColor;
@@ -393,7 +396,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   .scale(begin: const Offset(0.9, 0.9)),
               const SizedBox(height: 18),
               Text(
-                book.BookData.getTitle(settings.language),
+                Provider.of<BookProvider>(context, listen: false).getTitle(settings.language),
                 style: GoogleFonts.playfairDisplay(
                   fontSize: 22,
                   fontWeight: FontWeight.bold,
@@ -402,7 +405,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               const SizedBox(height: 4),
               Text(
-                book.BookData.getDescription(settings.language),
+                Provider.of<BookProvider>(context, listen: false).getDescription(settings.language),
                 style: GoogleFonts.lato(
                   fontSize: 12,
                   color: subColor,
@@ -467,7 +470,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   const SizedBox(width: 8),
                   Text(
-                    '${reading.readChapters.length} / ${book.BookData.getChapters(settings.language).length}',
+                    '${reading.readChapters.length} / ${Provider.of<BookProvider>(context, listen: false).getChapterCount(settings.language)}',
                     style: GoogleFonts.montserrat(
                       fontWeight: FontWeight.bold,
                       fontSize: 13,
@@ -532,7 +535,8 @@ class _HomeScreenState extends State<HomeScreen> {
     Color accent,
     bool isDark,
   ) {
-    final chLen = book.BookData.getChapters(settings.language).length;
+    final bookProv = Provider.of<BookProvider>(context, listen: false);
+    final chLen = bookProv.getChapterCount(settings.language);
     final r = Responsive.of(context);
     return GlassCard(
       padding: const EdgeInsets.all(20),
@@ -560,7 +564,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      book.BookData.getTitle(settings.language),
+                      bookProv.getTitle(settings.language),
                       style: GoogleFonts.playfairDisplay(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
@@ -569,7 +573,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      book.BookData.getDescription(settings.language),
+                      bookProv.getDescription(settings.language),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: GoogleFonts.lato(
@@ -647,7 +651,8 @@ class _HomeScreenState extends State<HomeScreen> {
     Color accent,
     bool isDark,
   ) {
-    final chaptersList = book.BookData.getChapters(settings.language);
+    final bookProv = Provider.of<BookProvider>(context, listen: false);
+    final chaptersList = bookProv.getChapters(settings.language);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

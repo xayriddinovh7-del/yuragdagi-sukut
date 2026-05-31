@@ -11,6 +11,7 @@ import '../../data/models/bookmark.dart';
 import '../../providers/reading_provider.dart';
 import '../../providers/settings_provider.dart';
 import '../../providers/bookmark_provider.dart';
+import '../../providers/book_provider.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/glass_decorations.dart';
 import '../../core/constants/image_urls.dart';
@@ -148,7 +149,8 @@ class _ReaderScreenState extends State<ReaderScreen> {
 
   void _goToChapter(int index) {
     final lang = Provider.of<SettingsProvider>(context, listen: false).language;
-    final chapters = book.BookData.getChapters(lang);
+    final bookProvider = Provider.of<BookProvider>(context, listen: false);
+    final chapters = bookProvider.getChapters(lang);
     if (index >= 0 && index < chapters.length) {
       setState(() {
         _currentIndex = index;
@@ -168,7 +170,8 @@ class _ReaderScreenState extends State<ReaderScreen> {
 
   void _nextChapter() {
     final lang = Provider.of<SettingsProvider>(context, listen: false).language;
-    if (_currentIndex < book.BookData.getChapters(lang).length - 1) {
+    final bookProvider = Provider.of<BookProvider>(context, listen: false);
+    if (_currentIndex < bookProvider.getChapters(lang).length - 1) {
       _goToChapter(_currentIndex + 1);
     }
   }
@@ -450,9 +453,10 @@ class _ReaderScreenState extends State<ReaderScreen> {
     final settingsProvider = Provider.of<SettingsProvider>(context);
     final bookmarkProvider = Provider.of<BookmarkProvider>(context);
     final readingProvider = Provider.of<ReadingProvider>(context);
+    final bookProvider = Provider.of<BookProvider>(context);
     final lang = settingsProvider.language;
 
-    final chapters = book.BookData.getChapters(lang);
+    final chapters = bookProvider.getChapters(lang);
     final chapter = chapters[_currentIndex.clamp(0, chapters.length - 1)];
     final theme = settingsProvider.readingTheme;
     final accentColor = theme.accentColor;
@@ -1051,7 +1055,8 @@ class _ReaderScreenState extends State<ReaderScreen> {
       Color accentColor, ReadingTheme theme) {
     final lang =
         Provider.of<SettingsProvider>(context, listen: false).language;
-    final localChapters = book.BookData.getChapters(lang);
+    final bookProvider = Provider.of<BookProvider>(context, listen: false);
+    final localChapters = bookProvider.getChapters(lang);
     final nextIndex = currentChapterIndex + 1;
     final hasNext = nextIndex < localChapters.length;
     final nextChapter = hasNext ? localChapters[nextIndex] : null;
@@ -1198,7 +1203,8 @@ class _Sidebar extends StatelessWidget {
     final r = Responsive.of(context);
     final lang =
         Provider.of<SettingsProvider>(context, listen: false).language;
-    final localChapters = book.BookData.getChapters(lang);
+    final bookProvider = Provider.of<BookProvider>(context, listen: false);
+    final localChapters = bookProvider.getChapters(lang);
     return Container(
       width: r.readerSidebarWidth,
       decoration: BoxDecoration(
@@ -1245,7 +1251,7 @@ class _Sidebar extends StatelessWidget {
                     ),
                     const SizedBox(height: 16),
                     Text(
-                      book.BookData.getTitle(lang),
+                      bookProvider.getTitle(lang),
                       textAlign: TextAlign.center,
                       style: GoogleFonts.playfairDisplay(
                         fontSize: 20,
