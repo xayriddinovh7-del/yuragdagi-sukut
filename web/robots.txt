@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://yurakdaagi-sukut.com/sitemap.xml

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <base href="$FLUTTER_BASE_HREF">
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="Yuragdagi Sukut — Ba'zan insonning eng baland qichqirig'i bu uning sukuti bo'larkan. O'zbek sevgi romani online o'qish.">
+  <meta name="keywords" content="yuragdagi sukut, uzbek roman, sevgi romani, online kitob, o'zbek adabiyoti">
+  <meta name="author" content="Yuragdagi Sukut">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Yuragdagi Sukut — O'zbek sevgi romani">
+  <meta property="og:description" content="Ba'zan insonning eng baland qichqirig'i bu uning sukuti bo'larkan... O'zbek sevgi romani.">
+  <meta property="og:type" content="book">
+  <meta property="og:url" content="https://yurakdaagi-sukut.com">
+  <meta property="og:image" content="icons/Icon-512.png">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Yuragdagi Sukut">
+  <meta name="twitter:description" content="Ba'zan insonning eng baland qichqirig'i bu uning sukuti bo'larkan...">
+
+  <!-- PWA -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Yuragdagi Sukut">
+  <meta name="theme-color" content="#2D1B69">
+
+  <link rel="apple-touch-icon" href="icons/Icon-192.png">
+  <link rel="icon" type="image/png" href="favicon.png"/>
+  <link rel="manifest" href="manifest.json">
+
+  <title>Yuragdagi Sukut — O'zbek sevgi romani</title>
+
+  <style>
+    /* Loading screen */
+    body {
+      margin: 0;
+      background: #0D0D1A;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      font-family: Georgia, serif;
+    }
+    #loading {
+      text-align: center;
+      color: rgba(255,255,255,0.7);
+    }
+    #loading-title {
+      font-size: 1.5rem;
+      color: white;
+      letter-spacing: 0.1em;
+      margin-bottom: 0.5rem;
+    }
+    #loading-sub {
+      font-size: 0.85rem;
+      color: rgba(155, 89, 182, 0.8);
+      font-style: italic;
+    }
+    .loading-bar {
+      width: 120px;
+      height: 2px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 1px;
+      margin: 1.5rem auto 0;
+      overflow: hidden;
+    }
+    .loading-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #9B59B6, #E8A0BF);
+      border-radius: 1px;
+      animation: loadingAnim 1.5s ease-in-out infinite;
+    }
+    @keyframes loadingAnim {
+      0% { width: 0%; margin-left: 0%; }
+      50% { width: 70%; margin-left: 15%; }
+      100% { width: 0%; margin-left: 100%; }
+    }
+    .flutter-loader { display: none; }
+  </style>
+</head>
+<body>
+  <div id="loading">
+    <div id="loading-title">Yuragdagi Sukut</div>
+    <div id="loading-sub">— O'zbek sevgi romani —</div>
+    <div class="loading-bar"><div class="loading-bar-fill"></div></div>
+  </div>
+  <script>
+    window.addEventListener('flutter-first-frame', function() {
+      document.getElementById('loading').style.display = 'none';
+    });
+  </script>
+  <script src="flutter_bootstrap.js" async></script>
+</body>
+</html>
